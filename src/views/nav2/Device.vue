@@ -12,9 +12,6 @@
 				<el-form-item>
 					<el-button type="primary" v-on:click="getDevices">查询</el-button>
 				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" @click="handleAdd">新增</el-button>
-				</el-form-item>
 			</el-form>
 		</el-col>
 		
@@ -24,11 +21,11 @@
 			</el-table-column>
 			<el-table-column type="index" width="60">
 			</el-table-column>
-			<el-table-column prop="vin" label="vin号" width="240" sortable>
+			<el-table-column prop="vin" label="vin号" width="180" sortable>
 			</el-table-column>
-			<el-table-column prop="name" label="名称" width="120" sortable>
+			<el-table-column prop="name" label="名称" width="180" sortable>
 			</el-table-column>
-			<el-table-column prop="uploaddate" label="上传时间" width="120" sortable>
+			<el-table-column prop="uploaddate" label="上传时间" width="260" sortable>
 			</el-table-column>
 			<el-table-column prop="uploadtimes" label="上传次数" width="120" sortable>
 			</el-table-column>
@@ -37,24 +34,24 @@
 			<el-table-column prop="deviceauth" label="是否授权" width="120" :formatter="formatAuth" sortable>
 			</el-table-column>
 			<el-table-column label="操作" width="150">
-				<template scope="scope">
-					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-					<!-- <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button> -->
+				<template slot-scope="scope">
+					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">流量控制</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
 		
 		<!--工具条-->
 		<el-col :span="24" class="toolbar">
-			<!-- <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button> -->
+			<!-- <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量流量控制</el-button> -->
+			<el-button type="danger" :disabled="this.sels.length===0">批量流量控制</el-button>
 			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
 			</el-pagination>
 		</el-col>
 		
 		<!--编辑界面-->
-		<el-dialog title="编辑" v-model="editFormVisible" :close-on-click-modal="false">
+		<el-dialog title="流量控制" v-model="editFormVisible" :close-on-click-modal="false">
 			<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-				<el-form-item label="vin号" prop="vin">
+				<!-- <el-form-item label="vin号" prop="vin">
 					<el-input v-model="editForm.vin" auto-complete="off"></el-input>
 				</el-form-item>
 				<el-form-item label="设备名称" prop="name">
@@ -65,7 +62,7 @@
 						<el-radio class="radio" :label="1">是</el-radio>
 						<el-radio class="radio" :label="0">否</el-radio>
 					</el-radio-group>
-				</el-form-item>
+				</el-form-item> -->
 				<el-form-item label="是否授权">
 					<el-radio-group v-model="editForm.deviceauth">
 						<el-radio class="radio" :label="1">是</el-radio>
@@ -232,6 +229,9 @@
 			handleEdit: function (index, row) {
 				this.editFormVisible = true;
 				this.editForm = Object.assign({}, row);
+				console.log("he")
+				console.log(this.editForm)
+				console.log(this.editFormVisible)
 			},
 			//显示新增界面
 			handleAdd: function () {
@@ -300,7 +300,7 @@
 			//批量删除
 			batchRemove: function () {
 				var ids = this.sels.map(item => item.id).toString();
-				this.$confirm('确认删除选中记录吗？', '提示', {
+				this.$confirm('确认更改上传权限吗？', '提示', {
 					type: 'warning'
 				}).then(() => {
 					this.listLoading = true;

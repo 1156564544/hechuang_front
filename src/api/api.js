@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-// let base = '';
-
 let base = 'http://124.71.27.112:9000';
+
+// let base = '/api';
 
 export const requestLogin = params => { return axios.post(`${base}/userlogin`, params).then(res => res.data); };
 
@@ -24,8 +24,6 @@ export const addUser = params => { return axios.get(`${base}/user/add`, { params
 
 // device
 
-export const getDeviceList = params => { return axios.get(`${base}'/device/list`, { params: params }); };
-
 // export const getDeviceListPage = params => { return axios.get(`${base}/device/listpage`, { params: params }); };
 
 export const getDeviceListPage = params => { return axios.post(`${base}/device/listpage`, params).then(res => res); };
@@ -34,4 +32,8 @@ export const getDeviceListPage = params => { return axios.post(`${base}/device/l
 
 export const editDevice = params => { return axios.post(`${base}/device/edit`, params).then(res => res.data); };
 
-export const addDevice = params => { return axios.get(`${base}/device/add`, { params: params }); };
+// log
+
+export const getLogListPage = params => { return axios.post(`${base}/log/listpage`, params).then(res => res); };
+
+export const getPicture = params => { return axios.post(`${base}/log/picture`, params).then(res => res); };

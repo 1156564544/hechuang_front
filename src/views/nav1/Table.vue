@@ -20,34 +20,32 @@
 		
 		<!--列表-->
 		<el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-			<el-table-column type="selection" width="55">
-			</el-table-column>
+			<!-- <el-table-column type="selection" width="55">
+			</el-table-column> -->
 			<el-table-column type="index" width="60">
 			</el-table-column>
-			<el-table-column prop="user_id" label="user_id号" width="120" sortable>
+			<el-table-column prop="user_id" label="user_id" width="120" sortable>
 			</el-table-column>
 			<el-table-column prop="user_name" label="名称" width="120" sortable>
 			</el-table-column>
-			<el-table-column prop="uploaddate" label="上传时间" width="120" sortable>
+		<!-- 	<el-table-column prop="uploaddate" label="上传时间" width="120" sortable>
 			</el-table-column>
 			<el-table-column prop="uploadtimes" label="上传次数" width="120" sortable>
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column prop="user_certificate" label="用户认证" width="120" :formatter="formatCert" sortable>
 			</el-table-column>
 			<el-table-column prop="user_auth" label="用户授权" width="120" :formatter="formatAuth" sortable>
 			</el-table-column>
-
-			<el-table-column prop="data_download_auth" label="数据下载权限" width="120" :formatter="formatDownload" sortable>
+			<el-table-column prop="data_download_auth" label="数据下载权限" width="150" :formatter="formatDownload" sortable>
 			</el-table-column>
-			<el-table-column prop="data_browse_auth" label="数据浏览权限" width="120" :formatter="formatbrowse" sortable>
+			<el-table-column prop="data_browse_auth" label="数据浏览权限" width="150" :formatter="formatbrowse" sortable>
 			</el-table-column>
-			<el-table-column prop="device_manage_auth" label="设备管理权限" width="120" :formatter="formatDevice" sortable>
+			<el-table-column prop="device_manage_auth" label="设备管理权限" width="150" :formatter="formatDevice" sortable>
 			</el-table-column>
-			<el-table-column prop="user_manage_auth" label="用户管理权限" width="120" :formatter="formatUser" sortable>
+			<el-table-column prop="user_manage_auth" label="用户管理权限" width="150" :formatter="formatUser" sortable>
 			</el-table-column>
-
 			<el-table-column label="操作" width="150">
-				<template scope="scope">
+				<template slot-scope="scope">
 					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
 					<!-- <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button> -->
 				</template>
