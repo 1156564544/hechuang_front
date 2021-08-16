@@ -1,6 +1,5 @@
 <template>
 	<section>
-		<!--工具条vin,head_ver,event_id,event_time,latitude,hard_ver,soft_ver,et-->
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 			<el-form :inline="true" :model="filters">
 				<el-form-item>
@@ -53,10 +52,11 @@
 			</el-table-column>
 			<el-table-column prop="et" label="型号" width="180" sortable>
 			</el-table-column>
-			<el-table-column label="操作" width="150">
+			<el-table-column label="操作" width="225">
 				<template slot-scope="scope">
-					<el-button size="small" @click="handleImage(scope.$index, scope.row)">图片</el-button>
-					<el-button size="small">下载</el-button>
+					<el-button type="primary" size="small" @click="handleImage(scope.$index, scope.row)">图片</el-button>
+					<el-button type="primary" size="small" @click="handleVideo(scope.$index, scope.row)">视频</el-button>
+					<el-button type="primary" size="small" @click="handleDownload(scope.$index, scope.row)">下载</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -73,7 +73,7 @@
 <script>
 	import util from '../../common/js/util'
 	//import NProgress from 'nprogress'
-	import { getLogListPage } from '../../api/api';
+	import { getLogListPage, getBinDownload } from '../../api/api';
 
 	export default {
 		data() {
@@ -117,7 +117,7 @@
 				this.listLoading = true;
 				//NProgress.start();
 				getLogListPage(para).then((res) => {
-					console.log(res)
+					console.log(res);
 					this.total = res.data.total;
 					this.logs = res.data.users;
 					this.listLoading = false;
@@ -126,7 +126,6 @@
 			},
 			//图片界面跳转
 			handleImage: function (index, row) {
-				this.editForm = Object.assign({}, row);
 				console.log(row.event_id)
 				this.$router.push({
 					path:'/image',
@@ -134,6 +133,47 @@
 						event_id: row.event_id
 					}
 				})
+			},
+			//视频界面跳转
+			handleVideo: function (index, row) {
+				console.log(row.event_id)
+				this.$router.push({
+					path:'/video',
+					query:{
+						event_id: row.event_id
+					}
+				})
+			},
+			//下载bin文件
+			handleDownload: function (index, row) {
+				console.log(row.event_id)
+				let para = {
+					vin: "1G1BL52P7TR11555",
+					event_id:"1",
+					session_id:"2",
+					time:"20210813215328"
+				};
+				this.listLoading = true;
+				getBinDownload(para).then((res) => {
+					// 1.打印res
+					console.log(res);
+					// // 2.获取请求返回的response对象中的blob设置文件类型，bin的type是"application/octet-stream"
+					// let blob = new Blob([res.data], {
+					// 	type: "application/octet-stream",
+					// });
+					// // 3.创建一个临时的url指向blob对象
+					// let url = window.URL.createObjectURL(blob);
+					let url = res.data.bin_file;
+					// // 4.创建url之后可以模拟对此文件对象的一系列操作，例如：预览、下载
+					let a = document.createElement("a");
+					a.href = url;
+					a.download = "1G1BL52P7TR11555_20210813215328.bin";
+					a.click();
+					// 5.释放这个临时的对象url
+					window.URL.revokeObjectURL(url);
+					// this.diaShow = !this.diaShow;
+					this.listLoading = false;
+				});
 			}
 		},
 		

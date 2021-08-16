@@ -82,7 +82,8 @@
 				<el-button type="primary" v-on:click="getSqlValue">查询</el-button>
 			</el-col>
 			<el-col :span="4" class="toolbar" style="padding-bottom: 0px;">
-				<a href="http://127.0.0.1:8085/treesoft/treesoft/index">数据库管理系统</a>
+				<!-- <a href="http://127.0.0.1:8085/treesoft/treesoft/index">数据库管理系统</a> -->
+				<el-button type="primary" @click="handleDatabase()">数据库管理系统</el-button>
 			</el-col>
 		</el-col>
 
@@ -490,7 +491,17 @@
 				}).catch(() => {
 			
 				});
-			}
+			},
+			
+			//数据库界面跳转
+			handleDatabase: function () {
+				this.$router.push({
+					path:'/database',
+					query:{
+						
+					}
+				})
+			},
 		},
 	
 	}

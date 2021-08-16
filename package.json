@@ -16,8 +16,11 @@
     "font-awesome": "^4.7.0",
     "node-sass": "^4.14.1",
     "nprogress": "^0.2.0",
+    "video.js": "^7.14.3",
     "vue": "^2.2.2",
+    "vue-core-video-player": "^0.2.0",
     "vue-router": "^2.3.0",
+    "vue-video-player": "^5.0.2",
     "vuex": "^2.0.0-rc.6"
   },
   "devDependencies": {

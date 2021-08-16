@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<el-carousel :height="bannerHeight + 'px'" style="width: 65%; margin: auto">
+		<el-carousel trigger="click" :height="bannerHeight + 'px'" style="width: 65%; margin: auto">
 			<!-- <el-carousel-item v-for="item in imgwrap"> -->
-			<el-carousel-item v-for="item in imgs" :key="index">
+			<el-carousel-item v-for="item in imgs">
 				<div class="pic_item">
 					<table class="mailTable"  cellspacing="0" cellpadding="0">
 					        <tr>
@@ -220,14 +220,14 @@
 				getPicture(para).then((res) => {
 					console.log(res.data)
 					this.imgs = res.data.imgs;
-					this.imgs[0].img = "data:image/jpeg;base64," + this.imgs[0].img;
-					this.imgs[1].img = "data:image/jpeg;base64," + this.imgs[1].img;
-					this.imgs[2].img = "data:image/jpeg;base64," + this.imgs[2].img;
-					this.imgs[3].img = "data:image/jpeg;base64," + this.imgs[3].img;
-					this.imgs[4].img = "data:image/jpeg;base64," + this.imgs[4].img;
-					this.imgs[5].img = "data:image/jpeg;base64," + this.imgs[5].img;
-					this.imgs[6].img = "data:image/jpeg;base64," + this.imgs[6].img;
-					this.imgs[7].img = "data:image/jpeg;base64," + this.imgs[7].img;
+					// this.imgs[0].img = "data:image/jpeg;base64," + this.imgs[0].img;
+					// this.imgs[1].img = "data:image/jpeg;base64," + this.imgs[1].img;
+					// this.imgs[2].img = "data:image/jpeg;base64," + this.imgs[2].img;
+					// this.imgs[3].img = "data:image/jpeg;base64," + this.imgs[3].img;
+					// this.imgs[4].img = "data:image/jpeg;base64," + this.imgs[4].img;
+					// this.imgs[5].img = "data:image/jpeg;base64," + this.imgs[5].img;
+					// this.imgs[6].img = "data:image/jpeg;base64," + this.imgs[6].img;
+					// this.imgs[7].img = "data:image/jpeg;base64," + this.imgs[7].img;
 					this.listLoading = false;
 				});
 			},
