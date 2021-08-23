@@ -33,7 +33,8 @@
 		</el-col>
 		
 		<!--列表-->
-		<el-table :data="logs" highlight-current-row v-loading="listLoading" style="width: 100%;">
+		<el-table :stripe="false" :data="logs" highlight-current-row v-loading="listLoading" style="width: 100%;">
+		<!-- <el-table :stripe="false" :row-class-name="tableRowClassName" :data="logs" highlight-current-row v-loading="listLoading" style="width: 100%;"> -->
 			<el-table-column type="index" width="60">
 			</el-table-column>
 			<el-table-column prop="frame_num" label="vin号" width="180" sortable>
@@ -100,11 +101,19 @@
 				this.page = val;
 				this.getLogs();
 			},
+			// tableRowClassName({row, rowIndex}) {
+			//     if (rowIndex === 1) {
+			//       return 'warning-row';
+			//     } else if (rowIndex === 3) {
+			//       return 'success-row';
+			//     }
+			//     return 'warning-row';
+		 //    },
 			//获取日志列表
 			getLogs() {
 				let para = {
 					page: this.page,
-					vin: this.filters.vin,
+					frame_num: this.filters.vin,
 					head_ver: this.filters.head_ver,
 					event_id: this.filters.event_id,
 					event_time: this.filters.event_time,
@@ -174,7 +183,7 @@
 					// this.diaShow = !this.diaShow;
 					this.listLoading = false;
 				});
-			}
+			},
 		},
 		
 		mounted() {
@@ -185,5 +194,5 @@
 </script>
 
 <style scoped>
-
-</style>
+	/* @import "../../styles/table.css"; */
+<style>

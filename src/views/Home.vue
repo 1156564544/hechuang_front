@@ -80,7 +80,7 @@
 				sysName:'HYCAN 合创',
 				collapsed:false,
 				sysUserName: '管理员',
-				sysUserAvatar: 'https://raw.githubusercontent.com/taylorchen709/markdown-images/master/vueadmin/user.png',
+				sysUserAvatar: 'http://124.71.27.112:9163/figure/log.jpg',
 				form: {
 					name: '',
 					region: '',
@@ -132,7 +132,7 @@
 			if (user) {
 				user = JSON.parse(user);
 				this.sysUserName = user.name || '管理员';
-				this.sysUserAvatar = user.avatar || 'https://raw.githubusercontent.com/taylorchen709/markdown-images/master/vueadmin/user.png';
+				this.sysUserAvatar = user.avatar || 'http://124.71.27.112:9163/figure/log.jpg';
 			}
 
 		}
@@ -151,7 +151,10 @@
 		.header {
 			height: 60px;
 			line-height: 60px;
-			background: $color-primary;
+			// background: $color-primary;
+			background: url("https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg") no-repeat;
+			background-size: cover;
+			overflow: hidden;
 			color:#fff;
 			.userinfo {
 				text-align: right;
@@ -216,6 +219,9 @@
 				// bottom: 0px;
 				.el-menu{
 					height: 100%;
+					background: url("https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg") no-repeat;
+					background-size: cover;
+					overflow: hidden;
 				}
 				.collapsed{
 					width:60px;

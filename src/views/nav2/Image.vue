@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-carousel trigger="click" :height="bannerHeight + 'px'" style="width: 65%; margin: auto">
+		<el-carousel trigger="click" :autoplay=false :height="bannerHeight + 'px'" style="width: 65%; margin: auto">
 			<!-- <el-carousel-item v-for="item in imgwrap"> -->
 			<el-carousel-item v-for="item in imgs">
 				<div class="pic_item">
