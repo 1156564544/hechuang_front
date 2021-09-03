@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-let base = 'http://124.71.27.112:9000';
+// let base = 'http://124.71.27.112:9000';
+let base = 'http://124.71.13.39:9000';
 
 // let base = '/api';
 

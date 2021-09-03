@@ -90,6 +90,7 @@
 					et: ''
 				},
 				logs: [],
+				logsView: [],
 				total: 0,
 				page: 1,
 				listLoading: false,
@@ -126,9 +127,14 @@
 				this.listLoading = true;
 				//NProgress.start();
 				getLogListPage(para).then((res) => {
-					console.log(res);
+					console.log(res.data);
 					this.total = res.data.total;
 					this.logs = res.data.users;
+					
+					// var begin = (this.page - 1) * 20;
+					// var end = this.page * 20;
+					// this.logsView = this.logs.slice(begin, end);
+					
 					this.listLoading = false;
 					//NProgress.done();
 				});
