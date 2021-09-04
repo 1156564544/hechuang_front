@@ -130,6 +130,7 @@
 					console.log(res.data);
 					this.total = res.data.total;
 					this.logs = res.data.users;
+					console.log(this.logs)
 					
 					// var begin = (this.page - 1) * 20;
 					// var end = this.page * 20;

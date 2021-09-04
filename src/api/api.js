@@ -44,3 +44,5 @@ export const getPicture = params => { return axios.post(`${base}/log/picture`, p
 export const getBinDownload = params => { return axios.post(`${base}/bin/download`, params).then(res => res); };
 
 export const getVideo = params => { return axios.post(`${base}/view_film`, params).then(res => res); };
+
+export const getSqlRes = params => { return axios.post(`${base}/getSqlRes`, params).then(res => res); };
