@@ -16,6 +16,7 @@ import Cloudreve from './views/nav3/Cloudreve.vue'
 import Database from './views/nav3/Database.vue'
 import Can from './views/nav3/can.vue'
 import echarts from './views/charts/echarts.vue'
+import omnidb from './views/nav3/omnidb.vue'
 
 let routes = [
     {
@@ -57,6 +58,7 @@ let routes = [
 			{ path: '/image', component: Image, name: '图片回放', hidden: true },
 			{ path: '/video', component: Video, name: '视频回放', hidden: true },
 			{ path: '/database', component: Database, name: '数据库管理系统' },
+            // { path: '/omnidb', component: omnidb, name: 'omnidb管理系统' },
         ]
     },
     {

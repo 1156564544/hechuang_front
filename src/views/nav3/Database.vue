@@ -2,19 +2,18 @@
 <template>
     <div class="app-container" style="text-align: -webkit-center;">
       <el-card style="width: 98%;height:1000">
-        <el-row :gutter="24">
-          <el-form :inline="true" style="text-align:-webkit-left;">
-            <el-form-item label="SQL:  ">
-              <el-input v-model="sqls" placeholder="请输入sql" clearable></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="getSql1()">执行</el-button>
-            </el-form-item>
-            <el-form-item label="返回信息:">
-              <el-input v-model="msgs"></el-input>
-            </el-form-item>
-          </el-form>
-        </el-row>
+
+	  <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+
+		<el-row>
+			<el-col :span="12"><el-input v-model="sqls" placeholder="请输入sql" clearable><template slot="prepend">SQL语句：</template></el-input></el-col>
+			<el-col :span="2"><el-button type="primary" @click="getSql1()">执行</el-button></el-col>
+		</el-row>
+		<el-row>
+  			<el-col :span="8"><el-input v-model="msgs"><template slot="prepend">执行信息：</template></el-input></el-col>
+		</el-row>
+
+	  </el-col>
 
         <el-table
           :data="tableData1"
@@ -41,8 +40,17 @@
           layout="total, sizes, prev, pager, next, jumper">
         </el-pagination>
       </el-card>
-    </div>
+	</div>
 </template>
+
+<style>
+  .el-row {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+</style>
 
 <script>
   import { getSqlRes } from '../../api/api';
