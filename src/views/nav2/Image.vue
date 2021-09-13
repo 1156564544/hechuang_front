@@ -96,72 +96,6 @@
 				bannerHeight: 200,
 				imgs: [],
 				listLoading: false,
-				imgwrap: [
-					{
-						url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-						"width": 1080,
-						"height": 1920,
-						"imgIndex": 0,
-						"img_stage": 0,
-						"size": 762903,
-					},
-					{
-						url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-						"width": 1080,
-						"height": 1920,
-						"imgIndex": 1,
-						"img_stage": 0,
-						"size": 767921,
-					},
-					{
-						url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-						"width": 1080,
-						"height": 1920,
-						"imgIndex": 2,
-						"img_stage": 0,
-						"size": 774638,
-					},
-					{
-						url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-						"width": 1080,
-						"height": 1920,
-						"imgIndex": 3,
-						"img_stage": 0,
-						"size": 777462,
-					},
-					{
-						url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-						"width": 1080,
-						"height": 1920,
-						"imgIndex": 4,
-						"img_stage": 0,
-						"size": 779027,
-					},
-					{
-						url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-						"width": 1080,
-						"height": 1920,
-						"imgIndex": 5,
-						"img_stage": 0,
-						"size": 245342,
-					},
-					{
-						url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-						"width": 1080,
-						"height": 1920,
-						"imgIndex": 6,
-						"img_stage": 0,
-						"size": 245704,
-					},
-					{
-						url: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-						"width": 1080,
-						"height": 1920,
-						"imgIndex": 7,
-						"img_stage": 0,
-						"size": 245556,
-					},
-				],
 				details: [{
 					"Data_Mile_Info": "1981-05-27 12:04:00.000000",
 					"altitude": 99,
@@ -192,7 +126,8 @@
 					"soft_ver": "S.A25",
 					"speed": 86,
 					"timestamps": "0,0,0,0,0,0,0,0",
-					"width": 1080
+					"width": 1080,
+					"bin_name": ""
 				}]
 			}
 		},
@@ -209,25 +144,18 @@
 		},
 		methods: {
 			getParams() {
-				this.details[0].event_id = this.$route.query.event_id;
-				console.log("事件ID", this.details[0].event_id);
+				this.details[0].bin_name = this.$route.query.bin_name;
+				console.log("bin_name", this.details[0].bin_name);
 			},
 			getImages() {
 				let para = {
-					event_id: this.details[0].event_id
+					bin_name: this.details[0].bin_name
 				};
+				console.log(para)
 				this.listLoading = true;
 				getPicture(para).then((res) => {
 					console.log(res.data)
 					this.imgs = res.data.imgs;
-					// this.imgs[0].img = "data:image/jpeg;base64," + this.imgs[0].img;
-					// this.imgs[1].img = "data:image/jpeg;base64," + this.imgs[1].img;
-					// this.imgs[2].img = "data:image/jpeg;base64," + this.imgs[2].img;
-					// this.imgs[3].img = "data:image/jpeg;base64," + this.imgs[3].img;
-					// this.imgs[4].img = "data:image/jpeg;base64," + this.imgs[4].img;
-					// this.imgs[5].img = "data:image/jpeg;base64," + this.imgs[5].img;
-					// this.imgs[6].img = "data:image/jpeg;base64," + this.imgs[6].img;
-					// this.imgs[7].img = "data:image/jpeg;base64," + this.imgs[7].img;
 					this.listLoading = false;
 				});
 			},

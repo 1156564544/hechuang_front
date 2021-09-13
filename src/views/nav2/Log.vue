@@ -29,6 +29,9 @@
 				<el-form-item>
 					<el-button type="primary" v-on:click="getLogs">查询</el-button>
 				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" v-on:click="batchDownload">批量下载</el-button>
+				</el-form-item>
 			</el-form>
 		</el-col>
 		
@@ -73,6 +76,8 @@
 
 <script>
 	import util from '../../common/js/util'
+	import jszip from '../../common/js/jszip'
+	import axios from 'axios'
 	//import NProgress from 'nprogress'
 	import { getLogListPage, getBinDownload } from '../../api/api';
 
@@ -130,7 +135,6 @@
 					console.log(res.data);
 					this.total = res.data.total;
 					this.logs = res.data.users;
-					console.log(this.logs)
 					
 					// var begin = (this.page - 1) * 20;
 					// var end = this.page * 20;
@@ -142,33 +146,38 @@
 			},
 			//图片界面跳转
 			handleImage: function (index, row) {
-				console.log(row.event_id)
+				console.log(row.bin_name)
 				this.$router.push({
 					path:'/image',
 					query:{
-						event_id: row.event_id
+						bin_name: row.bin_name
 					}
 				})
 			},
 			//视频界面跳转
 			handleVideo: function (index, row) {
-				console.log(row.event_id)
+				console.log(row.bin_name)
 				this.$router.push({
 					path:'/video',
 					query:{
-						event_id: row.event_id
+						bin_name: row.bin_name
 					}
 				})
 			},
 			//下载bin文件
 			handleDownload: function (index, row) {
-				console.log(row.event_id)
+				console.log(row)
 				let para = {
-					vin: "1G1BL52P7TR11555",
-					event_id:"1",
-					session_id:"2",
-					time:"20210813215328"
+					event_id: row.event_id,
+					head_ver: row.head_ver.toString(),
+					vin: row.frame_num,
+					event_time: "2005-11-02 12:58:08",
+					latitude: row.latitude.toString(),
+					hard_ver: row.hard_ver,
+					soft_ver: row.soft_ver,
+					et: row.et,
 				};
+				console.log(para)
 				this.listLoading = true;
 				getBinDownload(para).then((res) => {
 					// 1.打印res
@@ -179,15 +188,76 @@
 					// });
 					// // 3.创建一个临时的url指向blob对象
 					// let url = window.URL.createObjectURL(blob);
-					let url = res.data.bin_file;
+					let url = res.data.bin_file[0].file_url;
 					// // 4.创建url之后可以模拟对此文件对象的一系列操作，例如：预览、下载
 					let a = document.createElement("a");
 					a.href = url;
-					a.download = "1G1BL52P7TR11555_20210813215328.bin";
+					a.download = "LNAN1AB31L5000301_26.bin";
 					a.click();
 					// 5.释放这个临时的对象url
-					window.URL.revokeObjectURL(url);
+					// window.URL.revokeObjectURL(url);
 					// this.diaShow = !this.diaShow;
+					this.listLoading = false;
+				});
+			},
+			async getDowloadFile(url){
+				return new Promise((resolve, reject) => {
+				  axios({
+				   method:'get',
+				   url,
+				   responseType: 'arraybuffer'
+				  }).then(data => {
+				   resolve(data.data)
+				  }).catch(error => {
+				   reject(error.toString())
+				  })
+				  })
+			},
+			//批量下载
+			batchDownload: function () {
+				let para = {
+					event_id: this.filters.event_id,
+					head_ver: this.filters.head_ver.toString(),
+					vin: this.filters.vin,
+					event_time: this.filters.event_time,
+					latitude: this.filters.latitude.toString(),
+					hard_ver: this.filters.hard_ver,
+					soft_ver: this.filters.soft_ver,
+					et: this.filters.et,
+				};
+				console.log(para)
+				this.listLoading = true;
+				var that = this;
+				getBinDownload(para).then((res) => {
+					console.log(res);
+					let total = res.data.total;
+					// const zip = new jszip()
+					// const cache = {}
+					// const promises = []
+					res.data.bin_file.forEach(function(item, index) {
+						setTimeout(()=>{		
+								let a = document.createElement('a'); // 创建a标签					
+								let e = document.createEvent('MouseEvents'); // 创建鼠标事件对象
+								e.initEvent('click', false, false); // 初始化事件对象
+								a.href = item.file_url; // 设置下载地址
+								a.download = ''; // 设置下载文件名
+								a.dispatchEvent(e);
+								console.log(index);
+						}, 1000 * index)
+						// const promise = that.getDowloadFile(item.file_url).then(data => { // 下载文件, 并存成ArrayBuffer对象
+						// 	const arr_name = item.file_url.split("/")
+						// 	const file_name = arr_name[arr_name.length - 1] // 获取文件名
+						// 	zip.file(file_name, data, { binary: true }) // 逐个添加文件
+						// 	cache[file_name] = data
+						// })
+						// promises.push(promise)
+					})
+					// console.log(promises)
+					// Promise.all(promises).then(() => {
+					// 	zip.generateAsync({type:"blob"}).then(content => { // 生成二进制流
+					// 		saveAs.saveAs(content, `${name}.zip`) // 利用file-saver保存文件
+					// 	})
+					// })
 					this.listLoading = false;
 				});
 			},

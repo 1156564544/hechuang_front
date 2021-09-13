@@ -80,7 +80,7 @@
 				sysName:'HYCAN 合创',
 				collapsed:false,
 				sysUserName: '管理员',
-				sysUserAvatar: 'http://124.71.27.112:9163/figure/log.jpg',
+				sysUserAvatar: 'http://124.71.13.39:9163/figure/log.jpg',
 				form: {
 					name: '',
 					region: '',
@@ -132,7 +132,7 @@
 			if (user) {
 				user = JSON.parse(user);
 				this.sysUserName = user.name || '管理员';
-				this.sysUserAvatar = user.avatar || 'http://124.71.27.112:9163/figure/log.jpg';
+				this.sysUserAvatar = user.avatar || 'http://124.71.13.39:9163/figure/log.jpg';
 			}
 
 		}

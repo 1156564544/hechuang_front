@@ -90,15 +90,15 @@ let routes = [
 	    ]
 	},
 	
-    // {
-    //     path: '/',
-    //     component: Home,
-    //     name: 'Charts',
-    //     iconCls: 'fa fa-bar-chart',
-    //     children: [
-    //         { path: '/echarts', component: echarts, name: 'echarts', hidden: true }
-    //     ]
-    // },
+    {
+        path: '/',
+        component: Home,
+        name: 'Charts',
+        iconCls: 'fa fa-bar-chart',
+        children: [
+            { path: '/echarts', component: echarts, name: 'echarts' },
+        ]
+    },
     {
         path: '*',
         hidden: true,
