@@ -10,6 +10,7 @@ import Page5 from './views/nav2/Page5.vue'
 import Device from './views/nav2/Device.vue'
 import Log from './views/nav2/Log.vue'
 import Image from './views/nav2/Image.vue'
+import MCU from './views/nav2/mcu.vue'
 import Video from './views/nav2/Video.vue'
 import Page6 from './views/nav3/Page6.vue'
 import Cloudreve from './views/nav3/Cloudreve.vue'
@@ -17,6 +18,7 @@ import Database from './views/nav3/Database.vue'
 import Can from './views/nav3/can.vue'
 import echarts from './views/charts/echarts.vue'
 import omnidb from './views/nav3/omnidb.vue'
+
 
 let routes = [
     {
@@ -55,6 +57,7 @@ let routes = [
             { path: '/page5', component: Page5, name: '设备管理测试', hidden: true },
 			// { path: '/device', component: Device, name: '设备管理' },
 			{ path: '/log', component: Log, name: '日志查询' },
+            { path: '/MCU', component: MCU, name: 'MCU', hidden: true },
 			{ path: '/image', component: Image, name: '图片回放', hidden: true },
 			{ path: '/video', component: Video, name: '视频回放', hidden: true },
 			{ path: '/database', component: Database, name: '数据库管理系统' },

@@ -56,8 +56,9 @@
 			</el-table-column>
 			<el-table-column prop="et" label="型号" width="180" sortable>
 			</el-table-column>
-			<el-table-column label="操作" width="225">
+			<el-table-column label="操作" width="300">
 				<template slot-scope="scope">
+					<el-button type="primary" size="small" @click="handleMCU(scope.$index, scope.row)">MCU</el-button>
 					<el-button type="primary" size="small" @click="handleImage(scope.$index, scope.row)">图片</el-button>
 					<el-button type="primary" size="small" @click="handleVideo(scope.$index, scope.row)">视频</el-button>
 					<el-button type="primary" size="small" @click="handleDownload(scope.$index, scope.row)">下载</el-button>
@@ -143,6 +144,17 @@
 					this.listLoading = false;
 					//NProgress.done();
 				});
+			},
+			//MCU界面跳转
+			handleMCU: function (index, row) {
+				console.log(row)
+				this.$router.push({
+					path:'/MCU',
+					query:{
+						bin_name: row.bin_name,
+						row: row
+					}
+				})
 			},
 			//图片界面跳转
 			handleImage: function (index, row) {

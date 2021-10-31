@@ -26,6 +26,7 @@
 							    <td>{{ item.size }}</td>
 							</tr>
 					</table>
+
 					<!-- <img :src=""data:image/jpeg;base64," + item.img" style="width: 70%;margin-right:auto"/> -->
 					<img :src="item.img" style="width: 70%;margin-right:auto"/>
 				</div>

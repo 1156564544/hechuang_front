@@ -41,6 +41,8 @@ export const getLogListPage = params => { return axios.post(`${base}/log/listpag
 
 export const getPicture = params => { return axios.post(`${base}/log/picture`, params).then(res => res); };
 
+export const getMCU = params => { return axios.post(`${base}/log/MCU`, params).then(res => res); };
+
 export const getBinDownload = params => { return axios.post(`${base}/bin/download`, params).then(res => res); };
 
 export const getVideo = params => { return axios.post(`${base}/view_film`, params).then(res => res); };
