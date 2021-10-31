@@ -146,11 +146,12 @@
 			},
 			//图片界面跳转
 			handleImage: function (index, row) {
-				console.log(row.bin_name)
+				console.log(row)
 				this.$router.push({
 					path:'/image',
 					query:{
-						bin_name: row.bin_name
+						bin_name: row.bin_name,
+						row: row
 					}
 				})
 			},
