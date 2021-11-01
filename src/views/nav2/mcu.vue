@@ -1,9 +1,15 @@
 <template>
 	<div>
-		<el-carousel trigger="click" :autoplay=false :height="bannerHeight + 'px'" style="width: 95%; margin: auto">
+		<el-carousel trigger="click" :autoplay=false :height="bannerHeight + 'px'" style="width: 95%; margin: auto" @mouseenter.native="isclick = true" @mouseleave.native="isclick = false">
 			<!-- <el-carousel-item v-for="item in imgwrap"> -->
-			<el-carousel-item v-for="item in imgs">
+			<el-carousel-item v-for="item in imgs" >
 				<div class="pic_item">
+				<table class="mailTable"  cellspacing="0" cellpadding="0">
+							<tr>
+							   
+							    <td>{{ item.Frame}}</td>
+							</tr>	
+					</table>
 					<table class="mailTable"  cellspacing="0" cellpadding="0">
 					        <tr>
 					            <td class="column">ACC_Autonomous_Braking_Request_CAN_Bus_TX</td>
@@ -207,10 +213,15 @@
 							<tr>
 							    <td class="column">Virtual_Gas_Pedal_Position</td>
 							    <td>{{ item.Virtual_Gas_Pedal_Position }}</td>
-							</tr>
+							</tr>	
+							 
+					</table>
 
-				
-					      
+					<table class="mailTable"  cellspacing="0" cellpadding="0">
+							<tr>
+							   
+							    <td>{{ item.Frame}}</td>
+							</tr>	
 					</table>
 
 			
@@ -268,9 +279,11 @@
 	export default {
 		data() {
 			return {
+				isclick: false,
 				bannerHeight: 200,
 				imgs: [],
 				listLoading: false,
+				frame: 0,
 				details: [{
 					"AEB_Algorithm_Version_Major": "",
 					"AEB_Algorithm_Version_Minor": "",
@@ -301,6 +314,17 @@
 			this.getImages();
 		},
 		methods: {
+			swiperchange(n,o) {
+      			if(this.isclick){
+       			console.log('我是点击触发的'+n)
+      			}
+    		},
+			linkTo () {
+				this.frame=this.frame +1
+
+				console.log(1234)
+      			console.log(this.frame)
+    		},
 			getParams() {
 				this.details[0].bin_name = this.$route.query.bin_name;
 				console.log("bin_name", this.details[0].bin_name);
@@ -372,4 +396,5 @@
 	    color: #393C3E;
 	    width: 30%;
 	}
+	
 </style>
