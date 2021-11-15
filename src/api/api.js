@@ -35,6 +35,8 @@ export const editDevice = params => { return axios.post(`${base}/device/edit`, p
 
 export const trafficControl = params => { return axios.post(`${base}/traffic/control`, params).then(res => res.data); };
 
+export const downloadControl = params => { return axios.post(`${base}/download/control`, params).then(res => res.data); };
+
 // log
 
 export const getLogListPage = params => { return axios.post(`${base}/log/listpage`, params).then(res => res); };

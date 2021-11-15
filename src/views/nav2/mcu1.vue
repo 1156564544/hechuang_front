@@ -304,47 +304,33 @@
 			</el-table-column>
 		</el-table>
 		
-		<el-row :gutter="20">
+		<el-row :gutter="24">
 		  <el-col :span="10">
-		  <div class="grid-content bg-purple" height="100px">
-			  <video width="100%" height="100%" object-fit: fill id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered vjs-4-3" controls preload="none" poster="https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg" data-setup="{}">
+		  <div class="grid-content bg-purple">
+			  <video width="100%" height="100%" id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered vjs-4-3" controls preload="none" poster="https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg" data-setup="{}">
 				<source src="http://124.71.13.39:9163/video/1G1BL52P7TR11666_20210813210246_2_1.mp4" type="video/MP4">
 			  </video>
 		  </div></el-col>
 		  <el-col :span="14"><div class="grid-content bg-purple">
-		  <el-carousel trigger="click" :autoplay=false :height="bannerHeight + 'px'" style="width: 100%; margin: auto">
-		  	<el-carousel-item v-for="item in imgs1">
-		  		<div class="pic_item">
-		  			<table class="mailTable"  cellspacing="0" cellpadding="0">
-		  			        <tr>
-		  			            <td class="column">img_width</td>
-		  			            <td><span>{{ item.width }}</span></td>
-		  			        </tr>
-		  			        <tr>
-		  			            <td class="column">img_height</td>
-		  			            <td ><span>{{ item.height }}</span></td>
-		  			        </tr>
-		  			        <tr>
-		  			            <td class="column">img_index</td>
-		  			            <td>{{ item.imgIndex }}</td>
-		  			        </tr>
-		  			        <tr>
-		  			            <td class="column">img_stage</td>
-		  			            <td>{{ item.img_stage }}</td>
-		  			        </tr>
-		  					<tr>
-		  					    <td class="column">img_size</td>
-		  					    <td>{{ item.size }}</td>
-		  					</tr>
-							<tr>
-							    <td class="column">img_timestamps</td>
-							    <td>{{ item.timestamps }}</td>
-							</tr>
-		  			</table>
-		  			<img :src="item.img" style="width: 75%;margin-right:auto"/>
-		  		</div>
-		  	</el-carousel-item>
-		  </el-carousel>
+		  <div class="pic_item">
+			  <table class="mailTable"  cellspacing="0" cellpadding="0">
+				  <tr>
+					  <td class="column">height</td>
+					  <td><span>{{ imgs1[0].height }}</span></td>
+				  </tr>
+				  <tr>
+					  <td class="column">width</td>
+					  <td><span>{{ imgs1[0].width }}</span></td>
+				  </tr>
+				  <tr>
+					  <td class="column">timestamp</td>
+					  <td><span>{{ imgs1[0].timestamps }}</span></td>
+				  </tr>
+			  </table>
+			  <video :src="imgs1[0].img" width="75%" height="100%" id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered vjs-4-3" controls preload="none" poster="https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg" data-setup="{}">
+			  	<source type="video/MP4">
+			  </video>
+		  </div>
 		  </div></el-col>
 		</el-row>
 	</div>
@@ -361,7 +347,11 @@
 				isclick: false,
 				bannerHeight: 200,
 				imgs: [],
-				imgs1: [],
+				imgs1: [
+					{
+						"img": "http://124.71.13.39:9163/video/1G1BL52P7TR11666_20210813210246_2_1.mp4"
+					}
+				],
 				listLoading: false,
 				frame: 0,
 				details: [{

@@ -1,7 +1,6 @@
 <template>
 	<div>
 		<el-carousel trigger="click" :autoplay=false :height="bannerHeight + 'px'" style="width: 65%; margin: auto">
-			<!-- <el-carousel-item v-for="item in imgwrap"> -->
 			<el-carousel-item v-for="item in imgs">
 				<div class="pic_item">
 					<table class="mailTable"  cellspacing="0" cellpadding="0">
@@ -14,7 +13,7 @@
 					            <td ><span>{{ item.height }}</span></td>
 					        </tr>
 					        <tr>
-					            <td class="column">img_index</td>
+					            <td class="column">img_index</td> 
 					            <td>{{ item.imgIndex }}</td>
 					        </tr>
 					        <tr>
@@ -25,8 +24,11 @@
 							    <td class="column">img_size</td>
 							    <td>{{ item.size }}</td>
 							</tr>
+							<tr>
+							    <td class="column">img_timestamps</td>
+							    <td>{{ item.timestamps }}</td>
+							</tr>
 					</table>
-
 					<!-- <img :src=""data:image/jpeg;base64," + item.img" style="width: 70%;margin-right:auto"/> -->
 					<img :src="item.img" style="width: 70%;margin-right:auto"/>
 				</div>

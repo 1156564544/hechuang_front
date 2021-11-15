@@ -31,7 +31,9 @@
 			</el-table-column>
 			<el-table-column prop="deviceauth" label="上传权限" width="120" :formatter="formatAuth" sortable>
 			</el-table-column>
-			<el-table-column label="操作" width="150">
+			<el-table-column prop="download_deviceauth" label="下载权限" width="120" :formatter="formatDownload" sortable>
+			</el-table-column>
+			<el-table-column label="操作" width="200">
 				<template slot-scope="scope">
 					<el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">流量控制</el-button>
 				</template>
@@ -40,8 +42,8 @@
 		
 		<!--工具条-->
 		<el-col :span="24" class="toolbar">
-			<!-- <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量流量控制</el-button> -->
 			<el-button type="primary" @click="handleBatch">批量流量控制</el-button>
+			<el-button type="primary" @click="handleDownload">下载权限控制</el-button>
 			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
 			</el-pagination>
 		</el-col>
@@ -78,13 +80,29 @@
 			</div>
 		</el-dialog>
 		
+		<!--下载权限修改界面-->
+		<el-dialog title="下载权限修改" v-model="downloadFormVisible" :close-on-click-modal="false">
+			<el-form :model="downloadForm" label-width="80px" ref="downloadForm">
+				<el-form-item label="下载权限">
+					<el-radio-group v-model="downloadForm.downloadcontrol">
+						<el-radio class="radio" :label="1">全部打开</el-radio>
+						<el-radio class="radio" :label="0">全部关闭</el-radio>
+					</el-radio-group>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click.native="downloadFormVisible = false">取消</el-button>
+				<el-button type="primary" @click.native="downloadSubmit" :loading="downloadLoading">提交</el-button>
+			</div>
+		</el-dialog>
+		
 	</section>
 </template>
 
 <script>
 	import util from '../../common/js/util'
 	//import NProgress from 'nprogress'
-	import { getDeviceListPage, editDevice, trafficControl  } from '../../api/api';
+	import { getDeviceListPage, editDevice, trafficControl, downloadControl } from '../../api/api';
 
 	export default {
 		data() {
@@ -111,6 +129,13 @@
 				//批量流量控制界面数据
 				batchForm: {
 					trafficcontrol: -1
+				},
+				
+				downloadFormVisible: false, //下载控制界面是否显示
+				downloadLoading: false,
+				//下载权限控制界面数据
+				downloadForm: {
+					downloadcontrol: -1
 				}
 			}
 		},
@@ -123,6 +148,10 @@
 			//设备授权显示转换
 			formatAuth: function (row, colomn) {
 				return row.deviceauth == 1 ? '打开' : row.deviceauth == 0 ? '关闭' : '未知';
+			},
+			//下载控制显示转换
+			formatDownload: function (row, colomn) {
+				return row.download_deviceauth== 1 ? '打开' : row.download_deviceauth == 0 ? '关闭' : '未知';
 			},
 			handleCurrentChange(val) {
 				this.page = val;
@@ -139,6 +168,7 @@
 				this.listLoading = true;
 				//NProgress.start();
 				getDeviceListPage(para).then((res) => {
+					console.log('device')
 					console.log(res)
 					this.total = res.data.total;
 					this.devices = res.data.devices;
@@ -200,6 +230,36 @@
 								});
 								this.$refs['batchForm'].resetFields();
 								this.batchFormVisible = false;
+								this.getDevices();
+							});
+						});
+					}
+				});
+			},
+			//显示下载权限控制界面
+			handleDownload: function () {
+				this.downloadFormVisible = true;
+			},
+			//下载权限控制
+			downloadSubmit: function () {
+				this.$refs.downloadForm.validate((valid) => {
+					if (valid) {
+						this.$confirm('确认提交吗？', '提示', {}).then(() => {
+							this.downloadLoading = true;
+							//NProgress.start();
+							let para = Object.assign({}, this.downloadForm);
+							console.log("xiazaiquanxian");
+							console.log(para);
+							downloadControl(para).then((res) => {
+								console.log(res.data)
+								this.downloadLoading = false;
+								//NProgress.done();
+								this.$message({
+									message: '提交成功',
+									type: 'success'
+								});
+								this.$refs['downloadForm'].resetFields();
+								this.downloadFormVisible = false;
 								this.getDevices();
 							});
 						});

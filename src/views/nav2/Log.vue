@@ -42,19 +42,21 @@
 			</el-table-column>
 			<el-table-column prop="frame_num" label="vin号" width="180" sortable>
 			</el-table-column>
-			<el-table-column prop="head_ver" label="头版本" width="120" sortable>
+			<el-table-column prop="head_ver" label="头版本" width="100" sortable>
 			</el-table-column>
-			<el-table-column prop="event_id" label="事件ID" width="120" sortable>
+			<el-table-column prop="event_id" label="事件ID" width="100" sortable>
+			</el-table-column>
+			<el-table-column prop="event_name" label="触发事件" width="200" sortable>
 			</el-table-column>
 			<el-table-column prop="event_time" label="触发时间" width="280" sortable>
 			</el-table-column>
-			<el-table-column prop="latitude" label="纬度" width="120" sortable>
+			<el-table-column prop="latitude" label="纬度" width="100" sortable>
 			</el-table-column>
-			<el-table-column prop="hard_ver" label="硬件版本" width="120" sortable>
+			<el-table-column prop="hard_ver" label="硬件版本" width="115" sortable>
 			</el-table-column>
-			<el-table-column prop="soft_ver" label="软件版本" width="120" sortable>
+			<el-table-column prop="soft_ver" label="软件版本" width="115" sortable>
 			</el-table-column>
-			<el-table-column prop="et" label="型号" width="180" sortable>
+			<el-table-column prop="et" label="型号" width="120" sortable>
 			</el-table-column>
 			<el-table-column label="操作" width="300">
 				<template slot-scope="scope">
@@ -148,24 +150,44 @@
 			//MCU界面跳转
 			handleMCU: function (index, row) {
 				console.log(row)
-				this.$router.push({
-					path:'/MCU',
-					query:{
-						bin_name: row.bin_name,
-						row: row
-					}
-				})
+				if(row.event_id === '4') {
+					this.$router.push({
+						path:'/MCU1',
+						query:{
+							bin_name: row.bin_name,
+							row: row
+						}
+					})
+				} else {
+					this.$router.push({
+						path:'/MCU',
+						query:{
+							bin_name: row.bin_name,
+							row: row
+						}
+					})
+				}
 			},
 			//图片界面跳转
 			handleImage: function (index, row) {
 				console.log(row)
-				this.$router.push({
-					path:'/image',
-					query:{
-						bin_name: row.bin_name,
-						row: row
-					}
-				})
+				if(row.event_id === '4') {
+					this.$router.push({
+						path:'/image1',
+						query:{
+							bin_name: row.bin_name,
+							row: row
+						}
+					})
+				} else {
+					this.$router.push({
+						path:'/image',
+						query:{
+							bin_name: row.bin_name,
+							row: row
+						}
+					})
+				}
 			},
 			//视频界面跳转
 			handleVideo: function (index, row) {

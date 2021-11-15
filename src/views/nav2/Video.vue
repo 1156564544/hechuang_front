@@ -1,8 +1,8 @@
 <template>
 	<div style="width: 90%;margin:0px auto">
-		<video width="100%" height="500" id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered vjs-4-3" controls preload="none" poster="https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg" data-setup="{}">
+		<video :src="video_file" width="100%" height="500" id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered vjs-4-3" controls preload="none" poster="https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg" data-setup="{}">
 			<!-- <source src="http://124.71.27.112:9162/video/1G1BL52P7TR11666_20210813210246_2_1.mp4" type="video/MP4"> -->
-			<source src="http://124.71.13.39:9163/video/1G1BL52P7TR11666_20210813210246_2_1.mp4" type="video/MP4">
+			<source type="video/MP4">
 		</video>
 		<el-table :data="details" highlight-current-row v-loading="listLoading" style="width: 89%; margin: auto;">
 			<el-table-column prop="frame_num" label="车架号" width="240">

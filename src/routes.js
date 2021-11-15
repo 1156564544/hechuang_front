@@ -10,7 +10,9 @@ import Page5 from './views/nav2/Page5.vue'
 import Device from './views/nav2/Device.vue'
 import Log from './views/nav2/Log.vue'
 import Image from './views/nav2/Image.vue'
+import Image1 from './views/nav2/Image1.vue'
 import MCU from './views/nav2/mcu.vue'
+import MCU1 from './views/nav2/mcu1.vue'
 import Video from './views/nav2/Video.vue'
 import Page6 from './views/nav3/Page6.vue'
 import Cloudreve from './views/nav3/Cloudreve.vue'
@@ -58,7 +60,9 @@ let routes = [
 			// { path: '/device', component: Device, name: '设备管理' },
 			{ path: '/log', component: Log, name: '日志查询' },
             { path: '/MCU', component: MCU, name: 'MCU', hidden: true },
-			{ path: '/image', component: Image, name: '图片回放', hidden: true },
+			{ path: '/MCU1', component: MCU1, name: 'MCU', hidden: true },
+			{ path: '/image', component: Image, name: 'SOC回放', hidden: true },
+			{ path: '/image1', component: Image1, name: 'SOC回放', hidden: true },
 			{ path: '/video', component: Video, name: '视频回放', hidden: true },
 			{ path: '/database', component: Database, name: '数据库管理系统' },
             // { path: '/omnidb', component: omnidb, name: 'omnidb管理系统' },
@@ -97,7 +101,7 @@ let routes = [
         path: '/',
         component: Home,
         name: 'Charts',
-        iconCls: 'fa fa-bar-chart',
+        iconCls: 'el-icon-date',
         children: [
             { path: '/echarts', component: echarts, name: 'echarts' },
         ]
