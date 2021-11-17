@@ -20,6 +20,7 @@ import Database from './views/nav3/Database.vue'
 import Can from './views/nav3/can.vue'
 import echarts from './views/charts/echarts.vue'
 import omnidb from './views/nav3/omnidb.vue'
+import Video2 from './views/nav1/video2.vue'
 
 
 let routes = [
@@ -47,6 +48,7 @@ let routes = [
             { path: '/form', component: Form, name: 'SQL查询', hidden: true  },
             { path: '/user', component: user, name: '列表', hidden: true },
 			{ path: '/device', component: Device, name: '设备管理' },
+			// { path: '/video2', component: Video2, name: '视频' },
         ]
     },
     {

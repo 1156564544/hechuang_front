@@ -32,12 +32,14 @@
 				<el-form-item>
 					<el-button type="primary" v-on:click="batchDownload">批量下载</el-button>
 				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" v-on:click="handleSort">时间排序</el-button>
+				</el-form-item>
 			</el-form>
 		</el-col>
 		
 		<!--列表-->
 		<el-table :stripe="false" :data="logs" highlight-current-row v-loading="listLoading" style="width: 100%;">
-		<!-- <el-table :stripe="false" :row-class-name="tableRowClassName" :data="logs" highlight-current-row v-loading="listLoading" style="width: 100%;"> -->
 			<el-table-column type="index" width="60">
 			</el-table-column>
 			<el-table-column prop="frame_num" label="vin号" width="180" sortable>
@@ -67,6 +69,22 @@
 				</template>
 			</el-table-column>
 		</el-table>
+		
+		<!--排序控制界面-->
+		<el-dialog title="时间排序控制" v-model="sortFormVisible" :close-on-click-modal="false">
+			<el-form :model="sortForm" label-width="80px" ref="sortForm">
+				<el-form-item label="时间排序">
+					<el-radio-group v-model="sortForm.sortcontrol">
+						<el-radio class="radio" :label="1">顺序</el-radio>
+						<el-radio class="radio" :label="0">逆序</el-radio>
+					</el-radio-group>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click.native="sortFormVisible = false">取消</el-button>
+				<el-button type="primary" @click.native="sortSubmit" :loading="sortLoading">提交</el-button>
+			</div>
+		</el-dialog>
 		
 		<!--工具条-->
 		<el-col :span="24" class="toolbar">
@@ -102,6 +120,13 @@
 				total: 0,
 				page: 1,
 				listLoading: false,
+				
+				sortFormVisible: false, //排序界面是否显示
+				sortLoading: false,
+				//排序界面数据
+				sortForm: {
+					sortcontrol: 0
+				}
 			}
 		},
 		
@@ -110,14 +135,6 @@
 				this.page = val;
 				this.getLogs();
 			},
-			// tableRowClassName({row, rowIndex}) {
-			//     if (rowIndex === 1) {
-			//       return 'warning-row';
-			//     } else if (rowIndex === 3) {
-			//       return 'success-row';
-			//     }
-			//     return 'warning-row';
-		 //    },
 			//获取日志列表
 			getLogs() {
 				let para = {
@@ -129,22 +146,17 @@
 					latitude: this.filters.latitude,
 					hard_ver: this.filters.hard_ver,
 					soft_ver: this.filters.soft_ver,
-					et: this.filters.et
+					et: this.filters.et,
+					log_order: this.sortForm.sortcontrol
 				};
+				console.log("xin")
 				console.log(para)
 				this.listLoading = true;
-				//NProgress.start();
 				getLogListPage(para).then((res) => {
 					console.log(res.data);
 					this.total = res.data.total;
 					this.logs = res.data.users;
-					
-					// var begin = (this.page - 1) * 20;
-					// var end = this.page * 20;
-					// this.logsView = this.logs.slice(begin, end);
-					
 					this.listLoading = false;
-					//NProgress.done();
 				});
 			},
 			//MCU界面跳转
@@ -206,7 +218,7 @@
 					event_id: row.event_id,
 					head_ver: row.head_ver.toString(),
 					vin: row.frame_num,
-					event_time: "2005-11-02 12:58:08",
+					event_time: row.event_time,
 					latitude: row.latitude.toString(),
 					hard_ver: row.hard_ver,
 					soft_ver: row.soft_ver,
@@ -217,14 +229,14 @@
 				getBinDownload(para).then((res) => {
 					// 1.打印res
 					console.log(res);
-					// // 2.获取请求返回的response对象中的blob设置文件类型，bin的type是"application/octet-stream"
+					// 2.获取请求返回的response对象中的blob设置文件类型，bin的type是"application/octet-stream"
 					// let blob = new Blob([res.data], {
 					// 	type: "application/octet-stream",
 					// });
-					// // 3.创建一个临时的url指向blob对象
+					// 3.创建一个临时的url指向blob对象
 					// let url = window.URL.createObjectURL(blob);
 					let url = res.data.bin_file[0].file_url;
-					// // 4.创建url之后可以模拟对此文件对象的一系列操作，例如：预览、下载
+					// 4.创建url之后可以模拟对此文件对象的一系列操作，例如：预览、下载
 					let a = document.createElement("a");
 					a.href = url;
 					a.download = "LNAN1AB31L5000301_26.bin";
@@ -294,6 +306,26 @@
 					// 	})
 					// })
 					this.listLoading = false;
+				});
+			},
+			handleSort: function() {
+				this.sortFormVisible = true;
+			},
+			sortSubmit: function() {
+				this.$refs.sortForm.validate((valid) => {
+					if (valid) {
+						this.$confirm('确认提交吗？', '提示', {}).then(() => {
+							this.sortLoading = true;
+							this.getLogs();
+							this.sortLoading = false;
+							this.$message({
+								message: '提交成功',
+								type: 'success'
+							});
+							this.$refs['sortForm'].resetFields();
+							this.sortFormVisible = false;
+						});
+					}
 				});
 			},
 		},

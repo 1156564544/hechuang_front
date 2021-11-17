@@ -21,7 +21,7 @@
 			</el-table-column>
 			<el-table-column prop="vin" label="vin号" width="180" sortable>
 			</el-table-column>
-			<el-table-column prop="name" label="名称" width="180" sortable>
+			<el-table-column prop="name" label="车型" width="180" sortable>
 			</el-table-column>
 			<el-table-column prop="uploaddate" label="上传时间" width="260" sortable>
 			</el-table-column>

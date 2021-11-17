@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<el-carousel trigger="click" :autoplay=false :height="bannerHeight + 'px'" style="width: 95%; margin: auto" @mouseenter.native="isclick = true" @mouseleave.native="isclick = false">
-			<el-carousel-item v-for="item in imgs" >
+		<el-carousel :loop=true trigger="click" :interval=500 :autoplay=isPlay :height="bannerHeight + 'px'" style="width: 95%; margin: auto" @mouseenter.native="isclick = true" @mouseleave.native="isclick = false">
+			<el-carousel-item v-for="item in imgs" item = imgs[current] >
 				<div class="pic_item">
-				<table class="mailTable"  cellspacing="0" cellpadding="0">
+				<table v-if="item.Frame-current==0" class="mailTable" cellspacing="0" cellpadding="0">
 							<tr>
 							    <td>{{ item.Frame}}</td>
 							</tr>	
@@ -218,6 +218,11 @@
 				</div>
 			</el-carousel-item>
 		</el-carousel>
+		
+		<!-- <el-table :data="imgs[current]" highlight-current-row v-loading="listLoading" style="width: 100%; margin: auto;">
+			<el-table-column prop="Frame" label="Frame" >
+			</el-table-column>
+		</el-table> -->
 
 		<el-table :data="details" highlight-current-row v-loading="listLoading" style="width: 100%; margin: auto;">
 			<!-- 1320 -->
@@ -327,12 +332,27 @@
 					  <td><span>{{ imgs1[0].timestamps }}</span></td>
 				  </tr>
 			  </table>
-			  <video :src="imgs1[0].img" width="75%" height="100%" id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered vjs-4-3" controls preload="none" poster="https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg" data-setup="{}">
+			  <video :src="imgs1[0].img"
+			          ref="media" 
+			  		id="video1" 
+			  		controls="controls1" 
+			  		width="75%" 
+					height="100%"
+			  		class="video-js vjs-default-skin vjs-big-play-centered vjs-4-3" 
+			  		preload="none" 
+			  		poster="https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg" 
+			  		data-setup="{}"
+					loop>
 			  	<source type="video/MP4">
 			  </video>
 		  </div>
 		  </div></el-col>
 		</el-row>
+		<el-col :span="24" class="toolbar" align="center">
+			<el-button v-if="!isPlay" type="primary" v-on:click="handlePlay">播放</el-button>
+			<el-button v-if="isPlay" type="primary" v-on:click="handlePause">暂停</el-button>
+			<el-button type="primary" @click="handleExit()">退出</el-button>
+		</el-col>
 	</div>
 </template>
 
@@ -345,7 +365,9 @@
 		data() {
 			return {
 				isclick: false,
+				isPlay: false,
 				bannerHeight: 200,
+				current: 1,
 				imgs: [],
 				imgs1: [
 					{
@@ -409,8 +431,37 @@
 			}, false);
 			this.getImages();
 			this.getImages1();
+			this.$refs.media.addEventListener('play', this.handlePlay);
+			this.$refs.media.addEventListener('pause', this.handlePause);
+			this.$refs.media.addEventListener('timeupdate', this.timeUpdate);
 		},
 		methods: {
+			handlePlay() {
+			    this.$refs.media.play();
+			    this.isPlay = true
+			},
+			handlePause() {
+			    this.$refs.media.pause();
+			    this.isPlay = false
+			},
+			timeUpdate() {
+				var timeDisplay;
+				var duration;
+				//用秒数来显示当前播放进度
+				// timeDisplay = Math.floor(this.$refs.media.currentTime);
+				// duration = Math.floor(this.$refs.media.duration);
+				console.log("当前时间", this.$refs.media.currentTime);
+				console.log("总时长", this.$refs.media.duration);
+				this.current = Math.floor(this.$refs.media.currentTime / this.$refs.media.duration * 54);
+				console.log(this.current)
+				console.log(this.imgs[this.current])
+			},
+			//退出跳转
+			handleExit() {
+				this.$router.push({
+					path:'/log',
+				})
+			},
 			swiperchange(n,o) {
       			if(this.isclick){
        			console.log('我是点击触发的'+n)

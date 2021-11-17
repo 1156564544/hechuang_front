@@ -347,6 +347,9 @@
 		  </el-carousel>
 		  </div></el-col>
 		</el-row>
+		<el-col :span="24" class="toolbar" align="center">
+			<el-button type="primary" @click="handleExit()">退出</el-button>
+		</el-col>
 	</div>
 </template>
 
@@ -421,6 +424,12 @@
 			this.getImages1();
 		},
 		methods: {
+			//退出跳转
+			handleExit() {
+				this.$router.push({
+					path:'/log',
+				})
+			},
 			swiperchange(n,o) {
       			if(this.isclick){
        			console.log('我是点击触发的'+n)

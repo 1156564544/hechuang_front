@@ -45,6 +45,8 @@ export const getPicture = params => { return axios.post(`${base}/log/picture`, p
 
 export const getMCU = params => { return axios.post(`${base}/log/MCU`, params).then(res => res); };
 
+export const getMCU1 = params => { return axios.post(`${base}/log/MCU_fps`, params).then(res => res); };
+
 export const getBinDownload = params => { return axios.post(`${base}/bin/download`, params).then(res => res); };
 
 export const getVideo = params => { return axios.post(`${base}/view_film`, params).then(res => res); };

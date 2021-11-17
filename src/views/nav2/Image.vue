@@ -84,6 +84,9 @@
 			<el-table-column prop="id" label="id" width="120">
 			</el-table-column>
 		</el-table>
+		<el-col :span="24" class="toolbar" align="center">
+			<el-button type="primary" @click="handleExit()">退出</el-button>
+		</el-col>
 	</div>
 </template>
 <script>
@@ -135,6 +138,12 @@
 			this.getImages();
 		},
 		methods: {
+			//退出跳转
+			handleExit() {
+				this.$router.push({
+					path:'/log',
+				})
+			},
 			getParams() {
 				this.details[0].bin_name = this.$route.query.bin_name;
 				console.log("bin_name", this.details[0].bin_name);

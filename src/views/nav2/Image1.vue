@@ -3,6 +3,9 @@
 		<video :src="imgs[0].img" width="100%" height="500" id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered vjs-4-3" controls preload="none" poster="https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg" data-setup="{}">
 			<source type="video/MP4">
 		</video>
+		<el-col :span="24" class="toolbar" align="center">
+			<el-button type="primary" @click="handleExit()">退出</el-button>
+		</el-col>
 	</div>
 </template>
 <script>
@@ -57,6 +60,12 @@
 			this.getImages();
 		},
 		methods: {
+			//退出跳转
+			handleExit() {
+				this.$router.push({
+					path:'/log',
+				})
+			},
 			getParams() {
 				this.details[0].bin_name = this.$route.query.bin_name;
 				console.log("bin_name", this.details[0].bin_name);
