@@ -11,6 +11,7 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" v-on:click="getDevices">查询</el-button>
+					<el-button type="primary" @click="handleAdd">新增</el-button>
 				</el-form-item>
 			</el-form>
 		</el-col>
@@ -36,6 +37,7 @@
 			<el-table-column label="操作" width="200">
 				<template slot-scope="scope">
 					<el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">流量控制</el-button>
+					<el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -96,13 +98,53 @@
 			</div>
 		</el-dialog>
 		
+		<!--新增界面-->
+		<el-dialog title="新增" v-model="addFormVisible" :close-on-click-modal="false">
+			<el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
+				<el-form-item label="车型" prop="name">
+					<el-input v-model="addForm.name" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="vin号" prop="vin">
+					<el-input v-model="addForm.vin" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="上传日期">
+					<el-date-picker type="datetime" placeholder="选择日期" v-model="addForm.uploaddate"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="上传次数">
+					<el-input-number v-model="addForm.uploadtimes" :min="0" :max="200"></el-input-number>
+				</el-form-item>
+				<el-form-item label="是否认证">
+					<el-radio-group v-model="addForm.devicecert">
+						<el-radio class="radio" :label="1">是</el-radio>
+						<el-radio class="radio" :label="0">否</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item label="是否授权">
+					<el-radio-group v-model="addForm.deviceauth">
+						<el-radio class="radio" :label="1">是</el-radio>
+						<el-radio class="radio" :label="0">否</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item label="是否下载权限">
+					<el-radio-group v-model="addForm.download_deviceauth">
+						<el-radio class="radio" :label="1">是</el-radio>
+						<el-radio class="radio" :label="0">否</el-radio>
+					</el-radio-group>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click.native="addFormVisible = false">取消</el-button>
+				<el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
+			</div>
+		</el-dialog>
+		
 	</section>
 </template>
 
 <script>
 	import util from '../../common/js/util'
 	//import NProgress from 'nprogress'
-	import { getDeviceListPage, editDevice, trafficControl, downloadControl } from '../../api/api';
+	import { getDeviceListPage, editDevice, trafficControl, downloadControl, addDevice, removeDevice } from '../../api/api';
 
 	export default {
 		data() {
@@ -116,27 +158,45 @@
 				page: 1,
 				listLoading: false,
 				
-				editFormVisible: false, //编辑界面是否显示
+				//编辑界面
+				editFormVisible: false,
 				editLoading: false,
-				//编辑界面数据
 				editForm: {
 					id: 0,
 					deviceauth: -1
 				},
-				
-				batchFormVisible: false, //批量流量控制界面是否显示
+				//批量流量控制界面
+				batchFormVisible: false,
 				batchLoading: false,
-				//批量流量控制界面数据
 				batchForm: {
 					trafficcontrol: -1
 				},
-				
-				downloadFormVisible: false, //下载控制界面是否显示
+				//下载控制界面
+				downloadFormVisible: false,
 				downloadLoading: false,
-				//下载权限控制界面数据
 				downloadForm: {
 					downloadcontrol: -1
-				}
+				},
+				//新增界面
+				addFormVisible: false, //新增页面是否显示
+				addLoading: false,
+				addFormRules: {
+					vin: [
+						{ required: true, message: '请输入vin号', trigger: 'blur' }
+					],
+					name: [
+						{ required: true, message: '请输入设备名称', trigger: 'blur' }
+					],
+				},
+				addForm: {
+					name: '',
+					vin: '',
+					uploaddate: '',
+					uploadtimes: 0,
+					devicecert: -1,
+					deviceauth: -1,
+					download_deviceauth: -1,
+				},
 			}
 		},
 		
@@ -264,6 +324,66 @@
 							});
 						});
 					}
+				});
+			},
+			//显示新增界面
+			handleAdd: function () {
+				this.addFormVisible = true;
+				this.addForm = {
+					name: '',
+					vin: '',
+					uploaddate: '',
+					uploadtimes: 0,
+					devicecert: -1,
+					deviceauth: -1,
+					download_deviceauth: -1,
+				};
+			},
+			//新增
+			addSubmit: function () {
+				this.$refs.addForm.validate((valid) => {
+					if (valid) {
+						this.$confirm('确认提交吗？', '提示', {}).then(() => {
+							this.addLoading = true;
+							//NProgress.start();
+							let para = Object.assign({}, this.addForm);
+							console.log(para)
+							para.uploaddate = (!para.uploaddate || para.uploaddate == '') ? '' : util.formatDate.format(new Date(para.uploaddate), 'yyyy-MM-dd hh:mm:ss');
+							addDevice(para).then((res) => {
+								this.addLoading = false;
+								//NProgress.done();
+								this.$message({
+									message: '提交成功',
+									type: 'success'
+								});
+								this.$refs['addForm'].resetFields();
+								this.addFormVisible = false;
+								this.getDevices();
+							});
+						});
+					}
+				});
+			},
+			//删除
+			handleDel: function (index, row) {
+				this.$confirm('确认删除该记录吗?', '提示', {
+					type: 'warning'
+				}).then(() => {
+					this.listLoading = true;
+					//NProgress.start();
+					let para = { vin: row.vin };
+					console.log(para)
+					removeDevice(para).then((res) => {
+						this.listLoading = false;
+						//NProgress.done();
+						this.$message({
+							message: '删除成功',
+							type: 'success'
+						});
+						this.getDevices();
+					});
+				}).catch(() => {
+			
 				});
 			},
 		},

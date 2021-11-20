@@ -1,6 +1,14 @@
 <template>
 	<div>
-		<el-carousel trigger="click" :autoplay=false :height="bannerHeight + 'px'" style="width: 65%; margin: auto">
+		<el-slider
+		     v-model="value1" 
+			 :step="1"
+			 :min = "0"
+			 :max = "9"
+			 @change="SetPos()">
+		</el-slider>
+		
+		<el-carousel ref="remarkCaruse" trigger="click" :autoplay=false :height="bannerHeight + 'px'" style="width: 65%; margin: auto">
 			<el-carousel-item v-for="item in imgs">
 				<div class="pic_item">
 					<table class="mailTable"  cellspacing="0" cellpadding="0">
@@ -96,6 +104,7 @@
 	export default {
 		data() {
 			return {
+				value1: 0,
 				bannerHeight: 200,
 				imgs: [],
 				listLoading: false,
@@ -138,6 +147,10 @@
 			this.getImages();
 		},
 		methods: {
+			SetPos() {
+				console.log(this.value1)
+				this.$refs.remarkCaruse.setActiveItem(this.value1);
+			},
 			//退出跳转
 			handleExit() {
 				this.$router.push({

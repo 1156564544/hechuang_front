@@ -1,37 +1,5 @@
 <template>
 	<section>
-		<!-- <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-			<el-form :inline="true" :model="filters">
-				<el-form-item>
-					<el-input v-model="filters.vin" placeholder="vin号"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-input v-model="filters.head_ver" placeholder="头版本"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-input v-model="filters.event_id" placeholder="事件ID"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-input v-model="filters.event_time" placeholder="触发时间"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-input v-model="filters.latitude" placeholder="纬度"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-input v-model="filters.hard_ver" placeholder="硬件版本"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-input v-model="filters.soft_ver" placeholder="软件版本"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-input v-model="filters.et" placeholder="型号"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" v-on:click="getLogs">查询</el-button>
-				</el-form-item>
-			</el-form>
-		</el-col> -->
-		
 		<!--列表-->
 		<el-table :stripe="false" :data="logs" highlight-current-row v-loading="listLoading" style="width: 100%;">
 		<!-- <el-table :stripe="false" :row-class-name="tableRowClassName" :data="logs" highlight-current-row v-loading="listLoading" style="width: 100%;"> -->

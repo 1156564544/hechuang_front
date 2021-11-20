@@ -12,7 +12,8 @@
 					<el-input v-model="filters.event_id" placeholder="事件ID"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-input v-model="filters.event_time" placeholder="触发时间"></el-input>
+					<!-- <el-input v-model="filters.event_time" placeholder="触发时间"></el-input> -->
+					<el-date-picker v-model="filters.event_time" placeholder="触发时间" type="datetime" @change="timeChange"></el-date-picker>
 				</el-form-item>
 				<el-form-item>
 					<el-input v-model="filters.latitude" placeholder="纬度"></el-input>
@@ -131,6 +132,9 @@
 		},
 		
 		methods: {
+			timeChange(val) {
+				this.filters.event_time = val;
+			},
 			handleCurrentChange(val) {
 				this.page = val;
 				this.getLogs();

@@ -67,7 +67,7 @@
                 });
               } else {
                 sessionStorage.setItem('user', JSON.stringify(user));
-                this.$router.push({ path: '/table' });
+                this.$router.push({ path: '/user' });
               }
             });
           } else {
@@ -89,7 +89,7 @@
 	background: url("http://124.71.13.39:9163/figure/login.jpg");
 	background-repeat: no-repeat;
 	background-position: center 0;
-	width:100%; 
+	background-size: 100% 100%;
 	// background-size: cover;
 	overflow: hidden;
   }

@@ -1,12 +1,13 @@
 <template>
 	<div>
-		<!-- <el-slider
+		<el-slider
 		     v-model="value1" 
 			 :step="1"
-			 min="1"
-			 max="52"
+			 :min = "1"
+			 :max = "52"
 			 @change="SetPos()">
-		</el-slider> -->
+		</el-slider>
+		
 		<el-row :gutter="24">
 		  <el-col :span="24" align="center"><div class="grid-content bg-purple">
 		  <el-carousel ref="remarkCaruse2" indicator-position="none" trigger="click" :loop=true :interval=1500 :autoplay=isPlay :height="bannerHeight + 'px'" style="width: 100%; margin: auto">
@@ -480,7 +481,8 @@
 		},
 		methods: {
 			SetPos() {
-				this.$refs.remarkCaruse3.setActiveItem(this.value1+1);
+				console.log(this.value1)
+				this.$refs.remarkCaruse2.setActiveItem( this.value1 > 49 ? 9 : parseInt(this.value1/5) );
 				this.$refs.remarkCaruse3.setActiveItem(this.value1-1);
 			},
 			handlePlay() {
@@ -491,38 +493,46 @@
 			},
 			//批量下载
 			handleDownload: function () {
-				this.imgs1.forEach(function(item, index) {
-					setTimeout(()=>{		
-						let a = document.createElement('a'); // 创建a标签					
-						let e = document.createEvent('MouseEvents'); // 创建鼠标事件对象
-						e.initEvent('click', false, false); // 初始化事件对象
-						a.href = item.img; // 设置下载地址
-						a.download = ''; // 设置下载文件名
-						a.dispatchEvent(e);
-						console.log(index);
-						this.downloadByBlob(item.img, "pic");
-						window.open();
-						// let image = new Image()
-						// image.setAttribute('crossOrigin', 'anonymous')
-						// image.src = item.img
-						// image.onload = () => {
-						// 	let canvas = document.createElement('canvas')
-						// 	canvas.width = image.width
-						// 	canvas.height = image.height
-						// 	let ctx = canvas.getContext('2d')
-						// 	ctx.drawImage(image, 0, 0, image.width, image.height)
-						// 	canvas.toBlob((blob) => {
-						// 		let url = URL.createObjectURL(blob)
-						// 		let eleLink = document.createElement('a')
-						// 		eleLink.download = ''
-						// 		eleLink.href = url
-						// 		eleLink.click()
-						// 		eleLink.remove()
-						// 		URL.revokeObjectURL(url)
-						// 	})
-						// }
-					}, 1000 * index)
-				})
+				let a = document.createElement('a'); // 创建a标签
+				let e = document.createEvent('MouseEvents'); // 创建鼠标事件对象
+				e.initEvent('click', false, false); // 初始化事件对象
+				a.href = this.imgs1[this.value1 > 49 ? 9 : parseInt(this.value1/5)].img; // 设置下载地址
+				a.download = ''; // 设置下载文件名
+				a.dispatchEvent(e);
+				// this.imgs1.forEach(function(item, index) {
+				// 	setTimeout(()=>{		
+				// 		//url
+				// 		let a = document.createElement('a'); // 创建a标签					
+				// 		let e = document.createEvent('MouseEvents'); // 创建鼠标事件对象
+				// 		e.initEvent('click', false, false); // 初始化事件对象
+				// 		a.href = item.img; // 设置下载地址
+				// 		a.download = ''; // 设置下载文件名
+				// 		a.dispatchEvent(e);
+				// 		console.log(index);
+				// 		this.downloadByBlob(item.img, "pic");
+				// 		window.open();
+				// 		//二进制
+				// 		let image = new Image()
+				// 		image.setAttribute('crossOrigin', 'anonymous')
+				// 		image.src = item.img
+				// 		image.onload = () => {
+				// 			let canvas = document.createElement('canvas')
+				// 			canvas.width = image.width
+				// 			canvas.height = image.height
+				// 			let ctx = canvas.getContext('2d')
+				// 			ctx.drawImage(image, 0, 0, image.width, image.height)
+				// 			canvas.toBlob((blob) => {
+				// 				let url = URL.createObjectURL(blob)
+				// 				let eleLink = document.createElement('a')
+				// 				eleLink.download = ''
+				// 				eleLink.href = url
+				// 				eleLink.click()
+				// 				eleLink.remove()
+				// 				URL.revokeObjectURL(url)
+				// 			})
+				// 		}
+				// 	}, 1000 * index)
+				// })
 			},	
 			//退出跳转
 			handleExit() {
