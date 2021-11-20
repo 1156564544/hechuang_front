@@ -64,7 +64,7 @@
 				<template slot-scope="scope">
 					<el-button type="primary" size="small" @click="handleMCU(scope.$index, scope.row)">MCU</el-button>
 					<el-button type="primary" size="small" @click="handleImage(scope.$index, scope.row)">图片</el-button>
-					<el-button type="primary" size="small" @click="handleVideo(scope.$index, scope.row)">视频</el-button>
+					<!-- <el-button type="primary" size="small" @click="handleVideo(scope.$index, scope.row)">视频</el-button> -->
 					<el-button type="primary" size="small" @click="handleDownload(scope.$index, scope.row)">下载</el-button>
 				</template>
 			</el-table-column>

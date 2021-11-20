@@ -1,11 +1,44 @@
 <template>
 	<div>
-		<el-carousel :loop=true trigger="click" :interval=500 :autoplay=isPlay :height="bannerHeight + 'px'" style="width: 95%; margin: auto" @mouseenter.native="isclick = true" @mouseleave.native="isclick = false">
-			<el-carousel-item v-for="item in imgs" item = imgs[current] >
+		<el-row :gutter="20">
+			<el-col :span="24"><div class="grid-content bg-purple">
+				<video :src="imgs1[0].img"
+						style="display:block; margin: 0 auto;"
+						ref="media" 
+						id="video1" 
+						controls="controls1" 
+						width="40%" 
+						height="60%"
+						class="video-js vjs-default-skin vjs-big-play-centered vjs-4-3" 
+						preload="none" 
+						poster="https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg" 
+						data-setup="{}"
+						loop>
+					<source type="video/MP4">
+				</video>
+			</div></el-col>
+		</el-row>
+		
+		<el-col :span="24" class="toolbar" align="center">
+			<el-button v-if="!isPlay" type="primary" v-on:click="handlePlay">播放</el-button>
+			<el-button v-if="isPlay" type="primary" v-on:click="handlePause">暂停</el-button>
+			<el-button type="primary" @click="handleDownload()">下载</el-button>
+			<el-button type="primary" @click="handleExit()">退出</el-button>
+		</el-col>
+		
+		<el-carousel ref="remarkCarusel" 
+				indicator-position="none"
+				:loop=true trigger="click" 
+				:interval=500 
+				:autoplay=isPlay 
+				:height="bannerHeight + 'px'" style="width: 95%; margin: auto" 
+				@mouseenter.native="isclick = true" 
+				@mouseleave.native="isclick = false">
+			<el-carousel-item v-for="item in imgs" >
 				<div class="pic_item">
-				<table v-if="item.Frame-current==0" class="mailTable" cellspacing="0" cellpadding="0">
+				<table class="mailTable" cellspacing="0" cellpadding="0">
 							<tr>
-							    <td>{{ item.Frame}}</td>
+							    <td>{{ item.Frame }}</td>
 							</tr>	
 					</table>
 					<table class="mailTable"  cellspacing="0" cellpadding="0">
@@ -219,10 +252,7 @@
 			</el-carousel-item>
 		</el-carousel>
 		
-		<!-- <el-table :data="imgs[current]" highlight-current-row v-loading="listLoading" style="width: 100%; margin: auto;">
-			<el-table-column prop="Frame" label="Frame" >
-			</el-table-column>
-		</el-table> -->
+		
 
 		<el-table :data="details" highlight-current-row v-loading="listLoading" style="width: 100%; margin: auto;">
 			<!-- 1320 -->
@@ -309,7 +339,7 @@
 			</el-table-column>
 		</el-table>
 		
-		<el-row :gutter="24">
+		<!-- <el-row :gutter="24">
 		  <el-col :span="10">
 		  <div class="grid-content bg-purple">
 			  <video width="100%" height="100%" id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered vjs-4-3" controls preload="none" poster="https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg" data-setup="{}">
@@ -318,7 +348,7 @@
 		  </div></el-col>
 		  <el-col :span="14"><div class="grid-content bg-purple">
 		  <div class="pic_item">
-			  <table class="mailTable"  cellspacing="0" cellpadding="0">
+			 <table class="mailTable"  cellspacing="0" cellpadding="0">
 				  <tr>
 					  <td class="column">height</td>
 					  <td><span>{{ imgs1[0].height }}</span></td>
@@ -352,7 +382,7 @@
 			<el-button v-if="!isPlay" type="primary" v-on:click="handlePlay">播放</el-button>
 			<el-button v-if="isPlay" type="primary" v-on:click="handlePause">暂停</el-button>
 			<el-button type="primary" @click="handleExit()">退出</el-button>
-		</el-col>
+		</el-col> -->
 	</div>
 </template>
 
@@ -452,9 +482,17 @@
 				// duration = Math.floor(this.$refs.media.duration);
 				console.log("当前时间", this.$refs.media.currentTime);
 				console.log("总时长", this.$refs.media.duration);
-				this.current = Math.floor(this.$refs.media.currentTime / this.$refs.media.duration * 54);
+				this.current = Math.floor(this.$refs.media.currentTime / this.$refs.media.duration * 52);
 				console.log(this.current)
-				console.log(this.imgs[this.current])
+				// console.log(this.imgs[this.current])
+				this.$refs.remarkCarusel.setActiveItem(this.current);
+			},
+			//下载文件
+			handleDownload: function (index, row) {
+				let url = this.imgs1[0].img;
+				let a = document.createElement("a");
+				a.href = url;
+				a.click();
 			},
 			//退出跳转
 			handleExit() {
@@ -556,6 +594,11 @@
 	    background-color: #EFF3F6;
 	    color: #393C3E;
 	    width: 30%;
+	}
+	.center {
+	    margin-left: auto;
+	    margin-right: auto;
+	    display: block
 	}
 	
 </style>

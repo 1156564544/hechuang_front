@@ -1,7 +1,58 @@
 <template>
 	<div>
-		<el-carousel trigger="click" :autoplay=false :height="bannerHeight + 'px'" style="width: 95%; margin: auto" @mouseenter.native="isclick = true" @mouseleave.native="isclick = false">
-			<el-carousel-item v-for="item in imgs" >
+		<!-- <el-slider
+		     v-model="value1" 
+			 :step="1"
+			 min="1"
+			 max="52"
+			 @change="SetPos()">
+		</el-slider> -->
+		<el-row :gutter="24">
+		  <el-col :span="24" align="center"><div class="grid-content bg-purple">
+		  <el-carousel ref="remarkCaruse2" indicator-position="none" trigger="click" :loop=true :interval=1500 :autoplay=isPlay :height="bannerHeight + 'px'" style="width: 100%; margin: auto">
+		  	<el-carousel-item v-for="item in imgs1">
+		  		<div class="pic_item">
+		  			<table class="mailTable"  cellspacing="0" cellpadding="0">
+		  			        <tr>
+		  			            <td class="column">img_width</td>
+		  			            <td><span>{{ item.width }}</span></td>
+		  			        </tr>
+		  			        <tr>
+		  			            <td class="column">img_height</td>
+		  			            <td ><span>{{ item.height }}</span></td>
+		  			        </tr>
+		  			        <tr>
+		  			            <td class="column">img_index</td>
+		  			            <td>{{ item.imgIndex }}</td>
+		  			        </tr>
+		  			        <tr>
+		  			            <td class="column">img_stage</td>
+		  			            <td>{{ item.img_stage }}</td>
+		  			        </tr>
+		  					<tr>
+		  					    <td class="column">img_size</td>
+		  					    <td>{{ item.size }}</td>
+		  					</tr>
+							<tr>
+							    <td class="column">img_timestamps</td>
+							    <td>{{ item.timestamps }}</td>
+							</tr>
+		  			</table>
+		  			<img :src="item.img" style="width: 50%;margin-right:auto"/>
+		  		</div>
+		  	</el-carousel-item>
+		  </el-carousel>
+		  </div></el-col>
+		</el-row>
+		<el-col :span="24" class="toolbar" align="center">
+			<el-button v-if="!isPlay" type="primary" v-on:click="handlePlay">播放</el-button>
+			<el-button v-if="isPlay" type="primary" v-on:click="handlePause">暂停</el-button>
+			<el-button type="primary" @click="handleDownload()">下载</el-button>
+			<el-button type="primary" @click="handleExit()">退出</el-button>
+		</el-col>
+		
+		<el-carousel ref="remarkCaruse3" indicator-position="none" :loop=true trigger="click" :interval=300 :autoplay=isPlay :height="bannerHeight + 'px'" style="width: 95%; margin: auto" @mouseenter.native="isclick = true" @mouseleave.native="isclick = false">
+			<el-carousel-item v-for="item in imgs">
 				<div class="pic_item">
 				<table class="mailTable"  cellspacing="0" cellpadding="0">
 							<tr>
@@ -304,15 +355,15 @@
 			</el-table-column>
 		</el-table>
 		
-		<el-row :gutter="20">
+		<!-- <el-row :gutter="24">
 		  <el-col :span="10">
 		  <div class="grid-content bg-purple" height="100px">
 			  <video width="100%" height="100%" object-fit: fill id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered vjs-4-3" controls preload="none" poster="https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg" data-setup="{}">
 				<source src="http://124.71.13.39:9163/video/1G1BL52P7TR11666_20210813210246_2_1.mp4" type="video/MP4">
 			  </video>
 		  </div></el-col>
-		  <el-col :span="14"><div class="grid-content bg-purple">
-		  <el-carousel trigger="click" :autoplay=false :height="bannerHeight + 'px'" style="width: 100%; margin: auto">
+		  <el-col :span="24"><div class="grid-content bg-purple">
+		  <el-carousel indicator-position="none" trigger="click" :loop=true :interval=1500 :autoplay=isPlay :height="bannerHeight + 'px'" style="width: 100%; margin: auto">
 		  	<el-carousel-item v-for="item in imgs1">
 		  		<div class="pic_item">
 		  			<table class="mailTable"  cellspacing="0" cellpadding="0">
@@ -348,8 +399,10 @@
 		  </div></el-col>
 		</el-row>
 		<el-col :span="24" class="toolbar" align="center">
+			<el-button v-if="!isPlay" type="primary" v-on:click="handlePlay">播放</el-button>
+			<el-button v-if="isPlay" type="primary" v-on:click="handlePause">暂停</el-button>
 			<el-button type="primary" @click="handleExit()">退出</el-button>
-		</el-col>
+		</el-col> -->
 	</div>
 </template>
 
@@ -361,6 +414,8 @@
 	export default {
 		data() {
 			return {
+				value1: 0,
+				isPlay: false,
 				isclick: false,
 				bannerHeight: 200,
 				imgs: [],
@@ -424,6 +479,51 @@
 			this.getImages1();
 		},
 		methods: {
+			SetPos() {
+				this.$refs.remarkCaruse3.setActiveItem(this.value1+1);
+				this.$refs.remarkCaruse3.setActiveItem(this.value1-1);
+			},
+			handlePlay() {
+			    this.isPlay = true
+			},
+			handlePause() {
+			    this.isPlay = false
+			},
+			//批量下载
+			handleDownload: function () {
+				this.imgs1.forEach(function(item, index) {
+					setTimeout(()=>{		
+						let a = document.createElement('a'); // 创建a标签					
+						let e = document.createEvent('MouseEvents'); // 创建鼠标事件对象
+						e.initEvent('click', false, false); // 初始化事件对象
+						a.href = item.img; // 设置下载地址
+						a.download = ''; // 设置下载文件名
+						a.dispatchEvent(e);
+						console.log(index);
+						this.downloadByBlob(item.img, "pic");
+						window.open();
+						// let image = new Image()
+						// image.setAttribute('crossOrigin', 'anonymous')
+						// image.src = item.img
+						// image.onload = () => {
+						// 	let canvas = document.createElement('canvas')
+						// 	canvas.width = image.width
+						// 	canvas.height = image.height
+						// 	let ctx = canvas.getContext('2d')
+						// 	ctx.drawImage(image, 0, 0, image.width, image.height)
+						// 	canvas.toBlob((blob) => {
+						// 		let url = URL.createObjectURL(blob)
+						// 		let eleLink = document.createElement('a')
+						// 		eleLink.download = ''
+						// 		eleLink.href = url
+						// 		eleLink.click()
+						// 		eleLink.remove()
+						// 		URL.revokeObjectURL(url)
+						// 	})
+						// }
+					}, 1000 * index)
+				})
+			},	
 			//退出跳转
 			handleExit() {
 				this.$router.push({
