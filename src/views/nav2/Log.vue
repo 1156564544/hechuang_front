@@ -13,7 +13,8 @@
 				</el-form-item>
 				<el-form-item>
 					<!-- <el-input v-model="filters.event_time" placeholder="触发时间"></el-input> -->
-					<el-date-picker v-model="filters.event_time" placeholder="触发时间" type="datetime" @change="timeChange"></el-date-picker>
+					<el-date-picker v-model="filters.start_time" placeholder="开始时间" type="datetime" @change="timeChange1"></el-date-picker>
+					<el-date-picker v-model="filters.end_time" placeholder="结束时间" type="datetime" @change="timeChange2"></el-date-picker>
 				</el-form-item>
 				<el-form-item>
 					<el-input v-model="filters.latitude" placeholder="纬度"></el-input>
@@ -110,7 +111,9 @@
 					vin: '',
 					head_ver: '',
 					event_id: '',
-					event_time: '',
+					// event_time: '',
+					start_time: '',
+					end_time: '',
 					latitude: '',
 					hard_ver: '',
 					soft_ver: '',
@@ -132,8 +135,11 @@
 		},
 		
 		methods: {
-			timeChange(val) {
-				this.filters.event_time = val;
+			timeChange1(val) {
+				this.filters.start_time = val;
+			},
+			timeChange2(val) {
+				this.filters.end_time = val;
 			},
 			handleCurrentChange(val) {
 				this.page = val;
@@ -146,7 +152,7 @@
 					frame_num: this.filters.vin,
 					head_ver: this.filters.head_ver,
 					event_id: this.filters.event_id,
-					event_time: this.filters.event_time,
+					event_time: ((this.filters.start_time + '~' + this.filters.end_time) == '~') ? '' : (this.filters.start_time + '~' + this.filters.end_time),
 					latitude: this.filters.latitude,
 					hard_ver: this.filters.hard_ver,
 					soft_ver: this.filters.soft_ver,
