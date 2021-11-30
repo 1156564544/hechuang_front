@@ -394,6 +394,7 @@
 	export default {
 		data() {
 			return {
+				page: 1,
 				isclick: false,
 				isPlay: false,
 				bannerHeight: 200,
@@ -498,6 +499,9 @@
 			handleExit() {
 				this.$router.push({
 					path:'/log',
+					query:{
+						page: this.page
+					}
 				})
 			},
 			swiperchange(n,o) {
@@ -515,6 +519,7 @@
 				console.log("bin_name", this.details[0].bin_name);
 				this.details1[0] = this.$route.query.row;
 				console.log("detail", this.details1[0]);
+				this.page = this.$route.query.page;
 			},
 			getImages1() {
 				let para = {

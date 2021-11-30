@@ -5,6 +5,9 @@
 				<el-form-item>
 					<el-input v-model="filters.vin" placeholder="vin号"></el-input>
 				</el-form-item>
+				<!-- <el-form-item>
+					<el-input v-model="filters.car_name" placeholder="车型"></el-input>
+				</el-form-item> -->
 				<el-form-item>
 					<el-input v-model="filters.head_ver" placeholder="头版本"></el-input>
 				</el-form-item>
@@ -44,7 +47,9 @@
 		<el-table :stripe="false" :data="logs" highlight-current-row v-loading="listLoading" style="width: 100%;">
 			<el-table-column type="index" width="60">
 			</el-table-column>
-			<el-table-column prop="frame_num" label="vin号" width="180" sortable>
+			<el-table-column prop="frame_num" label="vin号" width="190" sortable>
+			</el-table-column>
+			<el-table-column prop="car_name" label="车型" width="100" sortable>
 			</el-table-column>
 			<el-table-column prop="head_ver" label="头版本" width="100" sortable>
 			</el-table-column>
@@ -52,7 +57,7 @@
 			</el-table-column>
 			<el-table-column prop="event_name" label="触发事件" width="200" sortable>
 			</el-table-column>
-			<el-table-column prop="event_time" label="触发时间" width="280" sortable>
+			<el-table-column prop="event_time" label="触发时间" width="200" sortable>
 			</el-table-column>
 			<el-table-column prop="latitude" label="纬度" width="100" sortable>
 			</el-table-column>
@@ -90,7 +95,7 @@
 		
 		<!--工具条-->
 		<el-col :span="24" class="toolbar">
-			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+			<el-pagination layout="prev, pager, next" :current-page.sync="page" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
 			</el-pagination>
 		</el-col>
 		
@@ -109,6 +114,7 @@
 			return {
 				filters: {
 					vin: '',
+					// car_name: '',
 					head_ver: '',
 					event_id: '',
 					// event_time: '',
@@ -177,7 +183,8 @@
 						path:'/MCU1',
 						query:{
 							bin_name: row.bin_name,
-							row: row
+							row: row,
+							page: this.page
 						}
 					})
 				} else {
@@ -185,7 +192,8 @@
 						path:'/MCU',
 						query:{
 							bin_name: row.bin_name,
-							row: row
+							row: row,
+							page: this.page
 						}
 					})
 				}
@@ -198,7 +206,8 @@
 						path:'/image1',
 						query:{
 							bin_name: row.bin_name,
-							row: row
+							row: row,
+							page: this.page
 						}
 					})
 				} else {
@@ -206,7 +215,8 @@
 						path:'/image',
 						query:{
 							bin_name: row.bin_name,
-							row: row
+							row: row,
+							page: this.page
 						}
 					})
 				}
@@ -237,23 +247,12 @@
 				console.log(para)
 				this.listLoading = true;
 				getBinDownload(para).then((res) => {
-					// 1.打印res
 					console.log(res);
-					// 2.获取请求返回的response对象中的blob设置文件类型，bin的type是"application/octet-stream"
-					// let blob = new Blob([res.data], {
-					// 	type: "application/octet-stream",
-					// });
-					// 3.创建一个临时的url指向blob对象
-					// let url = window.URL.createObjectURL(blob);
 					let url = res.data.bin_file[0].file_url;
-					// 4.创建url之后可以模拟对此文件对象的一系列操作，例如：预览、下载
 					let a = document.createElement("a");
 					a.href = url;
 					a.download = "LNAN1AB31L5000301_26.bin";
 					a.click();
-					// 5.释放这个临时的对象url
-					// window.URL.revokeObjectURL(url);
-					// this.diaShow = !this.diaShow;
 					this.listLoading = false;
 				});
 			},
@@ -276,7 +275,8 @@
 					event_id: this.filters.event_id,
 					head_ver: this.filters.head_ver.toString(),
 					vin: this.filters.vin,
-					event_time: this.filters.event_time,
+					event_time: ((this.filters.start_time + '~' + this.filters.end_time) == '~') ? '' : (this.filters.start_time + '~' + this.filters.end_time),
+					latitude: this.filters.latitude,
 					latitude: this.filters.latitude.toString(),
 					hard_ver: this.filters.hard_ver,
 					soft_ver: this.filters.soft_ver,
@@ -288,9 +288,6 @@
 				getBinDownload(para).then((res) => {
 					console.log(res);
 					let total = res.data.total;
-					// const zip = new jszip()
-					// const cache = {}
-					// const promises = []
 					res.data.bin_file.forEach(function(item, index) {
 						setTimeout(()=>{		
 								let a = document.createElement('a'); // 创建a标签					
@@ -301,20 +298,7 @@
 								a.dispatchEvent(e);
 								console.log(index);
 						}, 1000 * index)
-						// const promise = that.getDowloadFile(item.file_url).then(data => { // 下载文件, 并存成ArrayBuffer对象
-						// 	const arr_name = item.file_url.split("/")
-						// 	const file_name = arr_name[arr_name.length - 1] // 获取文件名
-						// 	zip.file(file_name, data, { binary: true }) // 逐个添加文件
-						// 	cache[file_name] = data
-						// })
-						// promises.push(promise)
 					})
-					// console.log(promises)
-					// Promise.all(promises).then(() => {
-					// 	zip.generateAsync({type:"blob"}).then(content => { // 生成二进制流
-					// 		saveAs.saveAs(content, `${name}.zip`) // 利用file-saver保存文件
-					// 	})
-					// })
 					this.listLoading = false;
 				});
 			},
@@ -342,6 +326,11 @@
 		
 		mounted() {
 			this.getLogs();
+		},
+		
+		created() {
+			this.page = this.$route.query.page ? this.$route.query.page : this.page;
+			console.log("当前page", this.page);
 		}
 	}
 

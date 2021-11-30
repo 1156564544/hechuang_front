@@ -14,6 +14,7 @@
 	export default {
 		data() {
 			return {
+				page: 1,
 				bannerHeight: 200,
 				imgs: [
 					{
@@ -64,6 +65,9 @@
 			handleExit() {
 				this.$router.push({
 					path:'/log',
+					query:{
+						page: this.page
+					}
 				})
 			},
 			getParams() {
@@ -71,6 +75,7 @@
 				console.log("bin_name", this.details[0].bin_name);
 				this.details[0] = this.$route.query.row;
 				console.log("detail", this.details[0]);
+				this.page = this.$route.query.page;
 			},
 			getImages() {
 				let para = {

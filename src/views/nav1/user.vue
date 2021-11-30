@@ -28,10 +28,10 @@
 			</el-table-column>
 			<el-table-column prop="user_name" label="名称" width="120" sortable>
 			</el-table-column>
-			<el-table-column prop="user_certificate" label="用户认证" width="120" :formatter="formatCert" sortable>
+			<!-- <el-table-column prop="user_certificate" label="用户认证" width="120" :formatter="formatCert" sortable>
 			</el-table-column>
 			<el-table-column prop="user_auth" label="用户授权" width="120" :formatter="formatAuth" sortable>
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column prop="data_download_auth" label="数据下载权限" width="150" :formatter="formatDownload" sortable>
 			</el-table-column>
 			<el-table-column prop="data_browse_auth" label="数据浏览权限" width="150" :formatter="formatbrowse" sortable>
@@ -64,7 +64,10 @@
 				<el-form-item label="名称" prop="user_name">
 					<el-input v-model="editForm.user_name" auto-complete="off"></el-input>
 				</el-form-item>
-				<el-form-item label="用户认证">
+				<el-form-item label="密码" prop="pass_word">
+					<el-input v-model="editForm.pass_word" auto-complete="off"></el-input>
+				</el-form-item>
+				<!-- <el-form-item label="用户认证">
 					<el-radio-group v-model="editForm.user_certificate">
 						<el-radio class="radio" :label="1">是</el-radio>
 						<el-radio class="radio" :label="0">否</el-radio>
@@ -75,7 +78,7 @@
 						<el-radio class="radio" :label="1">是</el-radio>
 						<el-radio class="radio" :label="0">否</el-radio>
 					</el-radio-group>
-				</el-form-item>
+				</el-form-item> -->
 
 				<el-form-item label="数据下载权限">
 					<el-radio-group v-model="editForm.data_download_auth">
@@ -118,13 +121,16 @@
 				<el-form-item label="user_id号" prop="user_id">
 					<el-input v-model="addForm.user_id" auto-complete="off"></el-input>
 				</el-form-item>
+				<el-form-item label="密码" prop="pass_word">
+					<el-input v-model="addForm.pass_word" auto-complete="off"></el-input>
+				</el-form-item>
 				<!-- <el-form-item label="上传日期">
 					<el-date-picker type="date" placeholder="选择日期" v-model="addForm.uploaddate"></el-date-picker>
 				</el-form-item> -->
 				<!-- <el-form-item label="上传次数">
 					<el-input-number v-model="addForm.uploadtimes" :min="0" :max="200"></el-input-number>
 				</el-form-item> -->
-				<el-form-item label="用户认证">
+				<!-- <el-form-item label="用户认证">
 					<el-radio-group v-model="addForm.user_certificate">
 						<el-radio class="radio" :label="1">是</el-radio>
 						<el-radio class="radio" :label="0">否</el-radio>
@@ -135,7 +141,7 @@
 						<el-radio class="radio" :label="1">是</el-radio>
 						<el-radio class="radio" :label="0">否</el-radio>
 					</el-radio-group>
-				</el-form-item>
+				</el-form-item> -->
 
 				<el-form-item label="数据下载权限">
 					<el-radio-group v-model="addForm.data_download_auth">
@@ -198,6 +204,9 @@
 					],
 					user_id: [
 						{ required: true, message: '请输入user_id号', trigger: 'blur' }
+					],
+					pass_word: [
+						{ required: true, message: '请输入密码', trigger: 'blur' }
 					]
 				},
 				//编辑界面数据
@@ -205,6 +214,7 @@
 					id: 0,
 					user_id: '',
 					user_name: '',
+					pass_word: '',
 					user_certificate:-1,
 					user_auth:-1,
 					data_download_auth: -1,
@@ -221,12 +231,16 @@
 					],
 					user_id: [
 						{ required: true, message: '请输入user_id号', trigger: 'blur' }
+					],
+					pass_word: [
+						{ required: true, message: '请输入密码', trigger: 'blur' }
 					]
 				},
 				//新增界面数据
 				addForm: {
 					user_name: '',
 					user_id: '',
+					pass_word: '',
 					uploaddate: '',
 					uploadtimes: 0,
 					user_certificate:-1,

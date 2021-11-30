@@ -152,7 +152,8 @@
 			height: 60px;
 			line-height: 60px;
 			// background: $color-primary;
-			background: url("https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg") no-repeat;
+			// background: url("https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg") no-repeat;
+			background: url("http://124.71.13.39:9163/figure/login.jpg");
 			background-size: cover;
 			overflow: hidden;
 			color:#fff;
@@ -219,7 +220,8 @@
 				// bottom: 0px;
 				.el-menu{
 					height: 100%;
-					background: url("https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg") no-repeat;
+					// background: url("https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg") no-repeat;
+					background: url("http://124.71.13.39:9163/figure/login.jpg");
 					background-size: cover;
 					overflow: hidden;
 				}

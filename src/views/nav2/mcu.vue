@@ -416,6 +416,7 @@
 		data() {
 			return {
 				value1: 0,
+				page: 1,
 				isPlay: false,
 				isclick: false,
 				bannerHeight: 200,
@@ -499,45 +500,14 @@
 				a.href = this.imgs1[this.value1 > 49 ? 9 : parseInt(this.value1/5)].img; // 设置下载地址
 				a.download = ''; // 设置下载文件名
 				a.dispatchEvent(e);
-				// this.imgs1.forEach(function(item, index) {
-				// 	setTimeout(()=>{		
-				// 		//url
-				// 		let a = document.createElement('a'); // 创建a标签					
-				// 		let e = document.createEvent('MouseEvents'); // 创建鼠标事件对象
-				// 		e.initEvent('click', false, false); // 初始化事件对象
-				// 		a.href = item.img; // 设置下载地址
-				// 		a.download = ''; // 设置下载文件名
-				// 		a.dispatchEvent(e);
-				// 		console.log(index);
-				// 		this.downloadByBlob(item.img, "pic");
-				// 		window.open();
-				// 		//二进制
-				// 		let image = new Image()
-				// 		image.setAttribute('crossOrigin', 'anonymous')
-				// 		image.src = item.img
-				// 		image.onload = () => {
-				// 			let canvas = document.createElement('canvas')
-				// 			canvas.width = image.width
-				// 			canvas.height = image.height
-				// 			let ctx = canvas.getContext('2d')
-				// 			ctx.drawImage(image, 0, 0, image.width, image.height)
-				// 			canvas.toBlob((blob) => {
-				// 				let url = URL.createObjectURL(blob)
-				// 				let eleLink = document.createElement('a')
-				// 				eleLink.download = ''
-				// 				eleLink.href = url
-				// 				eleLink.click()
-				// 				eleLink.remove()
-				// 				URL.revokeObjectURL(url)
-				// 			})
-				// 		}
-				// 	}, 1000 * index)
-				// })
 			},	
 			//退出跳转
 			handleExit() {
 				this.$router.push({
 					path:'/log',
+					query:{
+						page: this.page
+					}
 				})
 			},
 			swiperchange(n,o) {
@@ -555,6 +525,7 @@
 				console.log("bin_name", this.details[0].bin_name);
 				this.details1[0] = this.$route.query.row;
 				console.log("detail", this.details1[0]);
+				this.page = this.$route.query.page;
 			},
 			getImages1() {
 				let para = {
