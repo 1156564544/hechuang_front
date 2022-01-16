@@ -37,15 +37,8 @@
           </el-table-column>
         </el-table>
 
-        <el-pagination style="float: right"
-          @size-change="sizeChangeHandle"
-          @current-change="currentChangeHandle"
-          :current-page="pageIndex"
-          :page-sizes="[10, 20, 50, 100]"
-          :page-size="pageSize"
-          :total="totalPage"
-          layout="total, sizes, prev, pager, next, jumper">
-        </el-pagination>
+        <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+			</el-pagination>
     </div>
 </template>
 
@@ -64,6 +57,8 @@
             pageSize: 50,
             totalPage: 0,
             sqls:undefined,
+            page : 1,
+            total : 0,
             tableData:["user","devices","token","userlogin"],
             tableData1:[
             {"user":"user_id","devices":"id","token":"token_id","userlogin":"id"},
@@ -94,6 +89,10 @@
       created() {
       },
       methods:{
+        handleCurrentChange(val) {
+				this.page = val;
+				this.getSql1();
+			},
         sizeChangeHandle(val) {
           this.pageSize = val
           this.pageIndex = 1
@@ -104,14 +103,14 @@
           this.getSql()
         },
         getSql() {
-          getSqlRes({sql:this.sqls,current: this.pageIndex,
+          getSqlRes({sql:this.sqls,current: this.page,
             size: this.pageSize}).then(response => {
 			console.log(response.data)
             if (response) {
               this.msgs = response.data.msg
               this.tableData = response.data.table
               this.tableData1 = response.data.data
-              this.totalPage = response.data.totalPage
+              this.total = response.data.totalPage
 
             } else {
               this.msgs = response.data.msg
@@ -122,18 +121,18 @@
 			console.log(this.msgs)
 			console.log(this.tableData)
 			console.log(this.tableData1)
-			console.log(this.totalPage)
+			console.log(this.total)
           })
         },
         getSql1() {
-          getSqlRes({sql:this.sqls,current: 1,
-            size: 10}).then(response => {
+          getSqlRes({sql:this.sqls,current: this.page,
+            size: 20}).then(response => {
 			console.log(response.data)
             if (response) {
               this.msgs = response.data.msg
               this.tableData = response.data.table
               this.tableData1 = response.data.data
-              this.totalPage = response.data.totalPage
+              this.total = response.data.totalPage
               this.pageIndex = 1
               this.pageSize = 50
 
@@ -146,7 +145,7 @@
 			console.log(this.msgs)
 			console.log(this.tableData)
 			console.log(this.tableData1)
-			console.log(this.totalPage)
+			console.log(this.total)
           })
         },
         showTables(){
