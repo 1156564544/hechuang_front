@@ -12,8 +12,7 @@
 						class="video-js vjs-default-skin vjs-big-play-centered vjs-4-3" 
 						preload="none" 
 						poster="https://azure-upms.obs.cn-south-1.myhuaweicloud.com/hycan-huaweicloud/backendUpload/20210629113440613-web_pic_007@2x.jpg" 
-						data-setup="{}"
-						loop>
+						data-setup="{}">
 					<source type="video/MP4">
 				</video>
 			</div></el-col>

@@ -49,3 +49,9 @@ export const getBinDownload = params => { return axios.post(`${base}/bin/downloa
 export const getVideo = params => { return axios.post(`${base}/view_film`, params).then(res => res); };
 
 export const getSqlRes = params => { return axios.post(`${base}/getSqlRes`, params).then(res => res); };
+
+export const removeLog = params => { return axios.post(`${base}/log/remove`, params); };
+
+// statistics
+
+export const getStatistics = params => { return axios.post(`${base}/front_event_id_statistics`, params).then(res => res); };

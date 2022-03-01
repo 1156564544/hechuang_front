@@ -73,6 +73,7 @@
 					<el-button type="primary" size="small" @click="handleImage(scope.$index, scope.row)">图片</el-button>
 					<!-- <el-button type="primary" size="small" @click="handleVideo(scope.$index, scope.row)">视频</el-button> -->
 					<el-button type="primary" size="small" @click="handleDownload(scope.$index, scope.row)">下载</el-button>
+					<el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -107,7 +108,7 @@
 	import jszip from '../../common/js/jszip'
 	import axios from 'axios'
 	//import NProgress from 'nprogress'
-	import { getLogListPage, getBinDownload } from '../../api/api';
+	import { getLogListPage, getBinDownload, removeLog } from '../../api/api';
 
 	export default {
 		data() {
@@ -320,6 +321,28 @@
 							this.sortFormVisible = false;
 						});
 					}
+				});
+			},
+			//删除
+			handleDel: function (index, row) {
+				this.$confirm('确认删除该记录吗?', '提示', {
+					type: 'warning'
+				}).then(() => {
+					this.listLoading = true;
+					//NProgress.start();
+					let para = { bin_name: row.bin_name };
+					console.log(para)
+					removeLog(para).then((res) => {
+						this.listLoading = false;
+						//NProgress.done();
+						this.$message({
+							message: '删除成功',
+							type: 'success'
+						});
+						this.getLogs();
+					});
+				}).catch(() => {
+			
 				});
 			},
 		},
